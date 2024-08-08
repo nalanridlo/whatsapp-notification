@@ -9,6 +9,25 @@ class FonnteService
     protected $url;
     protected $token;
 
+
+    public static function getDevices()
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT',
+        ])->post('https://api.fonnte.com/get-devices');
+
+        // Decode response
+        return $response->json();
+
+        if (isset($data['name']) && isset($data['device'])) {
+            return $data;
+        }
+
+        // Jika data tidak sesuai dengan yang diharapkan
+        return ['status' => false, 'error' => 'Unexpected response format'];
+
+    }
+
     public function __construct()
     {
         $this->url = config('fonnte.url');

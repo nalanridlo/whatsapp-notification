@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Services\FonnteService;
 
 class FonnteController extends Controller
 {
@@ -25,6 +26,21 @@ class FonnteController extends Controller
             return response()->json(['status' => 'success', 'data' => $response->json()]);
         } else {
             return response()->json(['status' => 'error', 'message' => $response->body()], $response->status());
+        }
+    }
+
+    public function getDevices()
+    {
+        $response = FonnteService::getDevices();
+
+        // Debugging respons API
+    dd($response);
+
+        // Cek apakah responsnya sukses
+        if (isset($response['status']) && $response['status']) {
+            return view('devices.index', ['devices' => $response]);
+        } else {
+            return view('devices.index', ['error' => 'Failed to retrieve devices.']);
         }
     }
 }

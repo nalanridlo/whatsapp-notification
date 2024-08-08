@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FonnteController;
 use App\Http\Controllers\ReminderController;
+use App\Http\Controllers\DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,9 @@ Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders
 Route::get('/reminders/create', [ReminderController::class, 'create'])->name('reminders.create');
 Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
 Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+
+// routes/web.php
+Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
+Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
+Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+Route::get('/devices', [FonnteController::class, 'getDevices']);
