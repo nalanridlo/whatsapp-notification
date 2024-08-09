@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FonnteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\DeviceController;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,17 +20,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/send-message', [FonnteController::class, 'sendMessage']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/send-message', [ReminderController::class, 'create'])->name('send-message.create');
-Route::post('/send-message', [ReminderController::class, 'store'])->name('send-message.store');
-Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-Route::get('/reminders/create', [ReminderController::class, 'create'])->name('reminders.create');
-Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+Route::get('/dashboard', function () {
+    return view('dashboard'); // Buat view dengan nama dashboard.blade.php
+})->name('dashboard');
 
-// routes/web.php
-Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
-Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
-Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
-Route::get('/devices', [FonnteController::class, 'getDevices']);
+// Route::post('/send-message', [FonnteController::class, 'sendMessage']);
+
+// Route::get('/send-message', [ReminderController::class, 'create'])->name('send-message.create');
+// Route::post('/send-message', [ReminderController::class, 'store'])->name('send-message.store');
+// Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+// Route::get('/reminders/create', [ReminderController::class, 'create'])->name('reminders.create');
+// Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+// Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+
+// // routes/web.php
+// Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
+// Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
+// Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+// Route::get('/devices', [FonnteController::class, 'getDevices']);
