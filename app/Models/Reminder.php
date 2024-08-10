@@ -10,8 +10,9 @@ class Reminder extends Model
     use HasFactory;
 
     protected $fillable = [
+        'nama',
         'phone_number',
-        'message',
+        'tanggalLahir',
         'reminder_date',
         'expire_date',
     ];

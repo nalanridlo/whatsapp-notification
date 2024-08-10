@@ -26,7 +26,11 @@ Route::get('/dashboard', function () {
     return view('dashboard'); // Buat view dengan nama dashboard.blade.php
 })->name('dashboard');
 
-// Route::post('/send-message', [FonnteController::class, 'sendMessage']);
+
+Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashboard');
+
+
+Route::post('/send-message', [FonnteController::class, 'sendMessage']);
 
 // Route::get('/send-message', [ReminderController::class, 'create'])->name('send-message.create');
 // Route::post('/send-message', [ReminderController::class, 'store'])->name('send-message.store');

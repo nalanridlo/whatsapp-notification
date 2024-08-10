@@ -125,64 +125,8 @@
                   <a href="#" class="text-blue-500">Manage Users</a>
               </div>
                 <table class="border-separate border border-slate-100 w-[600px]">
-                    <thead>
-                        <tr class="text-left">
-                            <th class="py-2 px-4 border-b">Nama</th>
-                            <th class="py-2 px-4 border-b">Tanggal Lahir</th>
-                            <th class="py-2 px-4 border-b">Nomor WhatsApp</th>
-                            <th class="py-2 px-4 border-b">Expired Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Saifullah</td>
-                            <td class="py-2 px-4 border-b">12-5-2000</td>
-                            <td class="py-2 px-4 border-b">08781238900</td>
-                            <td class="py-2 px-4 border-b">24/8/2026</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Nathanael</td>
-                            <td class="py-2 px-4 border-b">8-1-2001</td>
-                            <td class="py-2 px-4 border-b">089976654321</td>
-                            <td class="py-2 px-4 border-b">6/9/2027</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2 px-4 border-b">Sarifusyiah</td>
-                            <td class="py-2 px-4 border-b">19-3-1998</td>
-                            <td class="py-2 px-4 border-b">088182345436</td>
-                            <td class="py-2 px-4 border-b">8/10/2030</td>
-                        </tr>
-                    </tbody>
+            
+                @include('reminders.index', ['reminders' => $reminders])
                 </table>
             </div>
         

@@ -12,22 +12,26 @@
     <form method="POST" action="{{ route('reminders.store') }}">
         @csrf
         <div class="mb-3">
-            <label for="phone_number" class="form-label">Phone Number</label>
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" name="nama" id="nama" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone_number" class="form-label">Nomor WhatsApp</label>
             <input type="text" name="phone_number" id="phone_number" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
-            <textarea name="message" id="message" class="form-control" required></textarea>
+            <label for="tanggalLahir" class="form-label">Tanggal Lahir</label>
+            <input type="date" name="tanggalLahir" id="tanggalLahir" class="form-control" required>
         </div>
         <div class="mb-3">
             <label for="reminder_date" class="form-label">Reminder Date</label>
             <input type="date" name="reminder_date" id="reminder_date" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="reminder_time" class="form-label">Reminder Time</label>
-            <input type="time" name="reminder_time" id="reminder_time" class="form-control" required>
+            <label for="expire_date" class="form-label">Expire Date</label>
+            <input type="date" name="expire_date" id="expire_date" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
+        <button type="submit" class="btn btn-primary">Save Reminder</button>
     </form>
 </div>
 

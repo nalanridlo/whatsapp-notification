@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Http;
 
 class ReminderController extends Controller
 {
+ 
+    public function dashboard()
+    {
+        $reminders = Reminder::all();
+        return view('dashboard', compact('reminders'));
+    }
 
     public function create()
     {
@@ -19,18 +25,20 @@ class ReminderController extends Controller
     {
         // Validasi input
         $request->validate([
-            'phone_number' => 'required|string',
-            'message' => 'required|string',
-            'reminder_date' => 'required|date',
-            'reminder_time' => 'required|date_format:H:i',
+            'nama' => 'required|string',
+        'phone_number' => 'required|string',
+        'tanggalLahir' => 'required|date',
+        'reminder_date' => 'required|date',
+        'expire_date' => 'required|date',
         ]);
 
         // Simpan data ke database
         $reminder = Reminder::create([
-            'phone_number' => $request->phone_number,
-            'message' => $request->message,
-            'reminder_date' => $request->reminder_date,
-            'reminder_time' => $request->reminder_time,
+            'nama' => $request->nama,
+        'phone_number' => $request->phone_number,
+        'tanggalLahir' => $request->tanggalLahir,
+        'reminder_date' => $request->reminder_date,
+        'expire_date' => $request->expire_date,
         ]);
 
         // Gabungkan tanggal dan waktu untuk mendapatkan Unix timestamp
