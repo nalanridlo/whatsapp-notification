@@ -18,11 +18,12 @@ return new class extends Migration
             $table->date('tanggalLahir');
             $table->date('reminder_date');
             $table->date('expire_date')->nullable();
+            $table->string('message')->default('pesan ini merupakan peringatan bahwa anda akan expired date');
             $table->timestamps();
         });
     }
 
-    /**
+    /*
      * Reverse the migrations.
      */
     public function down(): void
