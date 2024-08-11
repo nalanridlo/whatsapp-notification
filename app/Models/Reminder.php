@@ -15,6 +15,7 @@ class Reminder extends Model
         'tanggalLahir',
         'reminder_date',
         'expire_date',
+        'message',
     ];
 
 }

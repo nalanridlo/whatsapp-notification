@@ -39,15 +39,17 @@ Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashbo
 
 Route::post('/send-message', [FonnteController::class, 'sendMessage']);
 
-// Route::get('/send-message', [ReminderController::class, 'create'])->name('send-message.create');
-// Route::post('/send-message', [ReminderController::class, 'store'])->name('send-message.store');
-// Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-// Route::get('/reminders/create', [ReminderController::class, 'create'])->name('reminders.create');
-// Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
-// Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+Route::get('/send-message', [ReminderController::class, 'create'])->name('send-message.create');
+Route::post('/send-message', [ReminderController::class, 'store'])->name('send-message.store');
 
-// // routes/web.php
-// Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
-// Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
-// Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
-// Route::get('/devices', [FonnteController::class, 'getDevices']);
+// // routing reminders
+Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+Route::get('/reminders/create', [ReminderController::class, 'create'])->name('reminders.create');
+Route::post('/reminders', [ReminderController::class, 'store'])->name('reminders.store');
+Route::get('/reminders', [ReminderController::class, 'index'])->name('reminders.index');
+
+// // routing devices
+Route::get('/devices/create', [DeviceController::class, 'create'])->name('devices.create');
+Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
+Route::get('/devices', [DeviceController::class, 'index'])->name('devices.index');
+Route::get('/devices', [FonnteController::class, 'getDevices']);

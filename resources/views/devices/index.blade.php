@@ -7,22 +7,31 @@
 </head>
 <body>
 <div class="container">
-@if (isset($devices))
-    <h2>Connected Device Information</h2>
-    <ul>
-    <ul>
-        <li><strong>Device Name:</strong> {{ $devices['name'] ?? 'N/A' }}</li>
-        <li><strong>Device Number:</strong> {{ $devices['device'] ?? 'N/A' }}</li>
-        <li><strong>Autoread:</strong> {{ $devices['autoread'] ?? 'N/A' }}</li>
-        <li><strong>Group:</strong> {{ $devices['group'] ?? 'N/A' }}</li>
-        <li><strong>Personal:</strong> {{ $devices['personal'] ?? 'N/A' }}</li>
-        <li><strong>Token:</strong> {{ $devices['token'] ?? 'N/A' }}</li>
-    </ul>
-    </ul>
-@else
-    <p>No devices found or an error occurred.</p>
-@endif
-
-</div>
+        <h1>Connected Devices</h1>
+        @if(isset($devices) && count($devices) > 0)
+            <table>
+                <thead>
+                    <tr>
+                        <th>Device ID</th>
+                        <th>Device Name</th>
+                        <th>Status</th>
+                        <!-- Tambahkan kolom lainnya sesuai data yang ada -->
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($devices as $device)
+                        <tr>
+                            <td>{{ $device['device'] ?? '-' }}</td>
+                            <td>{{ $device['name'] ?? '-' }}</td>
+                            <td>{{ $device['status'] ?? '-' }}</td>
+                            <!-- Tambahkan data lainnya sesuai response API -->
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>No devices connected.</p>
+        @endif
+    </div>
 </body>
 </html>

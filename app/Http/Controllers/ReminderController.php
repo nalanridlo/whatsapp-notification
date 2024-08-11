@@ -39,6 +39,7 @@ class ReminderController extends Controller
         'tanggalLahir' => $request->tanggalLahir,
         'reminder_date' => $request->reminder_date,
         'expire_date' => $request->expire_date,
+        'message' => $request->input('message', 'pesan ini merupakan peringatan bahwa anda akan expired date'),
         ]);
 
         // Gabungkan tanggal dan waktu untuk mendapatkan Unix timestamp
