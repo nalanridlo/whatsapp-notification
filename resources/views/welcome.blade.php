@@ -14,7 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#F7FAFF] flex items-center justify-center h-screen">
-    <div class="bg-[#0157FE] p-8 rounded-lg shadow-md w-96">
+    <div class="bg-[#0157FE] p-8 rounded-[20px] shadow-md w-96">
       <div class="flex justify-center mb-4">
         <img
           class="w-[112px] h[112px]"
@@ -27,37 +27,44 @@
       <h2 class="text-white text-2xl font-semibold">
         Selamat Datang di Affidavit!
       </h2>
-      <p class="text-white mb-4">Admin Login</p>
-
+      
+      <div class="flex items-center mb-2">
+        <img
+          class="w-[10px] h-[13.13px]"
+          src="../assets/img/lockLogo.png"
+        />
+        <p class="text-white text-[16px] font-light ml-1.5">Admin Login</p>
+      </div>
+      
       <form method="POST" action="{{ route('login') }}">
   @csrf
   <div class="mb-4">
-    <label for="username" class="block text-white text-sm font-bold mb-2">
+    <label for="username" class="block text-white text-[14px] font-regular mb-1">
       Username
     </label>
     <input
       type="text"
       id="username"
       name="username"
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      class="shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       placeholder="Username/Email"
     />
   </div>
   <div class="mb-6">
-    <label for="password" class="block text-white text-sm font-bold mb-2">
+    <label for="password" class="block text-white text-[14px] font-regular mb-1">
       Password
     </label>
     <input
       type="password"
       id="password"
       name="password"
-      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      class="shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       placeholder="Password"
     />
   </div>
   <div class="flex items-center">
     <button
-      class="bg-[#02182B] hover:bg-gray-100 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      class="bg-[#02182B] hover:bg-gray-800 w-full text-white font-bold py-2 px-4 rounded-[10px] focus:outline-none focus:shadow-outline drop-shadow-[0_4px_0_rgba(0,0,0,0.25)]"
       type="submit"
     >
       Masuk

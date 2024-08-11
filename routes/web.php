@@ -26,6 +26,13 @@ Route::get('/dashboard', function () {
     return view('dashboard'); // Buat view dengan nama dashboard.blade.php
 })->name('dashboard');
 
+Route::get('/users', function () {
+    return view('users'); // Buat view dengan nama users.blade.php
+})->name('users');
+
+Route::get('/device', function () {
+    return view('device'); // Buat view dengan nama users.blade.php
+})->name('device');
 
 Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashboard');
 
