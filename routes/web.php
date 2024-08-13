@@ -5,6 +5,8 @@ use App\Http\Controllers\FonnteController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\NavigationController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,25 +19,21 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.welcome');
 });
 
+// Authentication route
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::get('/dashboard', function () {
-    return view('dashboard'); // Buat view dengan nama dashboard.blade.php
-})->name('dashboard');
+// Routes for main content with dynamic sidebar
+Route::get('/dashboard', [NavigationController::class, 'dashboard'])->name('dashboard');
+Route::get('/users', [NavigationController::class, 'users'])->name('users');
+Route::get('/device', [NavigationController::class, 'device'])->name('device');
+//Route::get('/', [NavigationController::class, 'logout'])->name('logout');
 
-Route::get('/users', function () {
-    return view('users'); // Buat view dengan nama users.blade.php
-})->name('users');
 
-Route::get('/device', function () {
-    return view('device'); // Buat view dengan nama users.blade.php
-})->name('device');
 
-Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashboard');
-
+//Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashboard');
 
 Route::post('/send-message', [FonnteController::class, 'sendMessage']);
 

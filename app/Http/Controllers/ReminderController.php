@@ -13,7 +13,7 @@ class ReminderController extends Controller
     public function dashboard()
     {
         $reminders = Reminder::all();
-        return view('dashboard', compact('reminders'));
+        return view('layouts.app', compact('reminders'));
     }
 
     public function create()
