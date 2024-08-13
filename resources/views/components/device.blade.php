@@ -12,8 +12,8 @@
                 <!-- Device counter -->
                 <h2 class="text-lg font-bold">(3)</h2>
             </div>
-            <a href="#" class="inline-flex items-center px-4 py-2 bg-[#0157FE] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
-                <img class="h-[20px] w-[20px] mr-2" src="../assets/img/ic_add_device.svg">
+            <a id="add-user-btn" class="inline-flex items-center px-4 py-2 bg-[#0157FE] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
+                <img class="h-[20px] w-[20px] mr-2" src="../assets/img/ic_device_add-white.svg">
                 Add New Device
             </a>
         </div>
@@ -35,7 +35,7 @@
 
                 <!-- Actions Buttons -->
                 <div class="flex space-x-2">
-                    <a href="#" class="inline-flex items-center px-4 py-2 bg-[#D00000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
+                    <a href="#"  class="inline-flex items-center px-4 py-2 bg-[#D00000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
                         Disconnect
                     </a>
                     <a href="#" class="inline-flex items-center px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
@@ -94,4 +94,39 @@
         </div>
     </div>
 </div>
+
+<x-device-add />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addUserBtn = document.getElementById('add-user-btn');
+        const addUserPopup = document.getElementById('add-device-popup');
+        const closePopupBtn = document.getElementById('popup-close');
+
+        // Open the popup when the button is clicked
+        addUserBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            addUserPopup.classList.remove('hidden');
+        });
+
+        // Close the popup when the close button is clicked
+        closePopupBtn.addEventListener('click', function() {
+            addUserPopup.classList.add('hidden');
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                addUserPopup.classList.add('hidden');
+            }
+        });
+
+        // Close the popup when clicking outside the main card
+        addUserPopup.addEventListener('click', function(event) {
+            if (event.target === addUserPopup) {
+                addUserPopup.classList.add('hidden');
+            }
+        });
+    });
+</script>
+
 @endsection

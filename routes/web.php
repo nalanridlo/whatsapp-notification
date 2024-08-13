@@ -29,9 +29,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/dashboard', [NavigationController::class, 'dashboard'])->name('dashboard');
 Route::get('/users', [NavigationController::class, 'users'])->name('users');
 Route::get('/device', [NavigationController::class, 'device'])->name('device');
-//Route::get('/', [NavigationController::class, 'logout'])->name('logout');
 
-
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 //Route::get('/dashboard', [ReminderController::class, 'dashboard'])->name('dashboard');
 

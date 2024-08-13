@@ -27,4 +27,5 @@ class NavigationController extends Controller
             'activePage' => 'device',
         ]);
     }
+
 }

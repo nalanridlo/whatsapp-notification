@@ -31,31 +31,25 @@
         </main>
     </div>
     <x-alert-logout />
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const openButton = document.getElementById('openForm');
-            const closeButton = document.getElementById('closeForm');
-            const formModal = document.getElementById('formModal');
+            const logoutTrigger = document.getElementById('logout-trigger');
+            const logoutPopup = document.getElementById('logout-popup');
+            const closeButton = document.getElementById('popup-close');
 
-            // Open the form
-            openButton.addEventListener('click', function() {
-                formModal.classList.remove('hidden');
+            // Show the popup
+            logoutTrigger.addEventListener('click', function(event) {
+                event.preventDefault();
+                logoutPopup.classList.remove('hidden');
             });
 
-            // Close the form
+            // Hide the popup
             closeButton.addEventListener('click', function() {
-                formModal.classList.add('hidden');
-            });
-
-            // Close the form if clicked outside of it
-            window.addEventListener('click', function(event) {
-                if (event.target === formModal) {
-                    formModal.classList.add('hidden');
-                }
+                logoutPopup.classList.add('hidden');
             });
         });
     </script>
-
 </body>
 
 </html>

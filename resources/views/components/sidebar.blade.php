@@ -23,7 +23,7 @@
         </li>
         <hr class="my-4 border-[#D0D0D0] -mx-4" />
         <li class="flex items-center ">
-            <a href="#" class="flex items-center block py-2 px-4 text-[#878787] font-medium text-[14px] flex items-center">
+            <a id="logout-trigger" href="#" class="flex items-center block py-2 px-4 text-[#878787] font-medium text-[14px] flex items-center">
                 <img class="mr-2" src="../assets/img/ic_logout.svg">
                 Logout
             </a>

@@ -27,8 +27,8 @@
                                     </div>
 
                                     <!-- Button -->
-                                    <a href="#" class="inline-flex items-center px-4 py-2 bg-[#0157FE] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
-                                        <img class="w-[28px] h-[28px] mr-2" src="../assets/img/ic_add_users.svg" >
+                                    <a id="add-user-btn" class="inline-flex items-center px-4 py-2 bg-[#0157FE] text-white text-[12px] font-semibold rounded-[10px] hover:bg-blue-700">
+                                        <img class="w-[28px] h-[28px] mr-2" src="../assets/img/ic_users_add-white.svg">
                                         Add New Users
                                     </a>
                                 </div>
@@ -59,12 +59,44 @@
                             <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 3</td>
                             <td class="p-[10px] w-[25%]">Data 4</td>
                         </tr>
-
-
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 </div>
+
+<x-users-add />
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const addUserBtn = document.getElementById('add-user-btn');
+        const addUserPopup = document.getElementById('add-user-popup');
+        const closePopupBtn = document.getElementById('popup-close');
+
+        // Open the popup when the button is clicked
+        addUserBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            addUserPopup.classList.remove('hidden');
+        });
+
+        // Close the popup when the close button is clicked
+        closePopupBtn.addEventListener('click', function() {
+            addUserPopup.classList.add('hidden');
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                addUserPopup.classList.add('hidden');
+            }
+        });
+
+        // Close the popup when clicking outside the main card
+        addUserPopup.addEventListener('click', function(event) {
+            if (event.target === addUserPopup) {
+                addUserPopup.classList.add('hidden');
+            }
+        });
+    });
+</script>
 @endsection
