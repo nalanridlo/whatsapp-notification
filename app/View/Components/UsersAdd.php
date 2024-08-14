@@ -6,11 +6,13 @@ use Illuminate\View\Component;
 
 class UsersAdd extends Component
 {
-    public function __construct()
-    {
-        
-    }
+    public $safkdjasjkdf;
+    public $adf;
 
+    public function __construct($asdfasd = '$afj')
+    {
+        //
+    }
 
     public function render()
     {

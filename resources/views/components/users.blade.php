@@ -68,10 +68,14 @@
 
 <x-users-add />
 
+<x-alert-confirmation id="alert-confirmation" title="Add New User" message="Are you sure you want to add this user?" />
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
         const addUserPopup = document.getElementById('add-user-popup');
+        const submitUserBtn = document.getElementById('submit-btn');
+        const alertConfirmation = document.getElementById('alert-confirmation');
         const closePopupBtn = document.getElementById('popup-close');
 
         // Open the popup when the button is clicked
@@ -96,6 +100,12 @@
             if (event.target === addUserPopup) {
                 addUserPopup.classList.add('hidden');
             }
+        });
+
+        // Show Confirmation Alert before Submiting
+        submitUserBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            alertConfirmation.classList.remove('hidden');
         });
     });
 </script>
