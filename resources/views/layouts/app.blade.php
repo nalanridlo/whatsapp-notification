@@ -24,32 +24,14 @@
     <x-header />
     <div class="flex h-screen">
         <!-- left navigation -->
-        <x-sidebar :activePage="$activePage ?? 'dashboard'" />
+        <x-sidebar />
         <!-- main content -->
         <main id="main-content" class="flex-1 bg-[#ECF0F5] p-[20px]">
             @yield('content')
         </main>
     </div>
     <x-alert-logout />
-    
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoutTrigger = document.getElementById('logout-trigger');
-            const logoutPopup = document.getElementById('logout-popup');
-            const closeButton = document.getElementById('popup-close');
-
-            // Show the popup
-            logoutTrigger.addEventListener('click', function(event) {
-                event.preventDefault();
-                logoutPopup.classList.remove('hidden');
-            });
-
-            // Hide the popup
-            closeButton.addEventListener('click', function() {
-                logoutPopup.classList.add('hidden');
-            });
-        });
-    </script>
+    <script src="../assets/js/sidebar.js"></script>
 </body>
 
 </html>

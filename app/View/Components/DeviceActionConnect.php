@@ -21,6 +21,6 @@ class DeviceActionConnect extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.device-connect');
+        return view('components.device-action-connect');
     }
 }

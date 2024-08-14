@@ -25,16 +25,3 @@
         </div>
     </nav>
 </header>
-
-<script>
-    document.addEventListener('click', function(event) {
-        const userIcon = document.getElementById('user-icon');
-        const dropdownMenu = document.getElementById('dropdown-menu');
-
-        if (userIcon && userIcon.contains(event.target)) {
-            dropdownMenu.classList.toggle('hidden');
-        } else if (!dropdownMenu.contains(event.target)) {
-            dropdownMenu.classList.add('hidden');
-        }
-    });
-</script>

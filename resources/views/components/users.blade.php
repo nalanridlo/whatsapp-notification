@@ -32,7 +32,6 @@
                                         Add New Users
                                     </a>
                                 </div>
-
                             </th>
                         </tr>
                         <tr class="border-b border-[#E0E0E0]">
@@ -44,21 +43,10 @@
                     </thead>
                     <tbody>
                         <!-- User data rows -->
-                        <tr class="border-b border-[#E0E0E0]">
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">
-                                <div class="flex items-center space-x-2">
-                                    <!-- More Options Button -->
-                                    <button class="p-1 rounded-full hover:bg-gray-200">
-                                        <img src="../assets/img/ic_more.svg" alt="More Options" class="w-5 h-5">
-                                    </button>
-                                    <!-- Data Text -->
-                                    <span>Data 1</span>
-                                </div>
-                            </td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 2</td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 3</td>
-                            <td class="p-[10px] w-[25%]">Data 4</td>
-                        </tr>
+                        <x-users-items />
+                        <x-users-items />
+                        <x-users-items />
+                        <x-users-items />
                     </tbody>
                 </table>
             </div>
@@ -70,12 +58,16 @@
 
 <x-alert-confirmation id="alert-confirmation" title="Add New User" message="Are you sure you want to add this user?" />
 
+<x-alert-deletion id="alert-deletion" title="Apakah Anda Yakin?" message="Apakah anda yakin ingin menhapus data ini?" />
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
         const addUserPopup = document.getElementById('add-user-popup');
+        const deleteUserBtn = document.getElementById('users-delete-btn');
         const submitUserBtn = document.getElementById('submit-btn');
         const alertConfirmation = document.getElementById('alert-confirmation');
+        const deleteConfirmation = document.getElementById('alert-deletion');
         const closePopupBtn = document.getElementById('popup-close');
 
         // Open the popup when the button is clicked
@@ -106,6 +98,12 @@
         submitUserBtn.addEventListener('click', function(event) {
             event.preventDefault();
             alertConfirmation.classList.remove('hidden');
+        });
+
+        // Show delete confirmation alert before deleting
+        deleteUserBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            deleteConfirmation.classList.remove('hidden');
         });
     });
 </script>

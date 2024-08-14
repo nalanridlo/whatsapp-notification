@@ -25,6 +25,8 @@
 </div>
 
 <x-device-add />
+<x-device-action-connect />
+<x-device-action-delete />
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -53,6 +55,35 @@
         addUserPopup.addEventListener('click', function(event) {
             if (event.target === addUserPopup) {
                 addUserPopup.classList.add('hidden');
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const connectionBtn = document.getElementById('connection-btn');
+        const deleteBtn = document.getElementById('delete-btn');
+        const connectionPopup = document.getElementById('connect-device-popup'); 
+        const deletePopup = document.getElementById('delete-device-popup');
+
+        connectionBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            connectionPopup.classList.remove('hidden');
+        });
+
+        deleteBtn.addEventListener('click', function(event){
+            event.preventDefault();
+            deletePopup.classList.remove('hidden');
+        });
+
+        connectionPopup.addEventListener('click', function(event) {
+            if (event.target === connectionPopup) {
+                connectionPopup.classList.add('hidden');
+            }
+        });
+
+        deletePopup.addEventListener('click', function(event) {
+            if (event.target === deletePopup) {
+                deletePopup.classList.add('hidden');
             }
         });
     });

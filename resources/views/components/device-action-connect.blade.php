@@ -6,17 +6,13 @@
         </div>
         <!-- Content -->
         <div>
-            <img src="data:image/png;base64,{{ $qrUrl }}" alt="QR Code for Reconnect">
+            <img src="" alt="QR Code for Reconnect">
         </div>
         <div>
             <button
                 class="bg-[#02182B] hover:bg-gray-800 w-full text-white font-bold py-2 px-4 rounded-[10px] focus:outline-none focus:shadow-outline drop-shadow-[0_4px_0_rgba(0,0,0,0.25)]" type="submit">
-                Submit
+                Selesai
             </button>
         </div>
     </div>
 </div>
-
-<script>
-    
-</script>

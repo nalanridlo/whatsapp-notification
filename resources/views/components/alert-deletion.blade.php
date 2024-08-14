@@ -5,7 +5,7 @@
             <p class="text-[14px] text-[#F7F7F7] mb-[20px]">{{ $message }}</h4>
         </div>
         <div class="flex space-x-4 w-full">
-            <button type="submit-btn" class="w-full bg-[#7DDF64] text-white font-semibold text-[14px] px-4 py-[15px] rounded-[10px] hover:bg-[#b00000]">Sudah</button>
+            <button type="submit-btn" class="w-full bg-[#D00000] text-white font-semibold text-[14px] px-4 py-[15px] rounded-[10px] hover:bg-[#b00000]">Yakin</button>
             <button id="popup-close-btn" class="w-full  bg-[#0157FE] text-white font-semibold px-4 py-[10px] rounded-[10px] hover:bg-[#0240B9]">Batal</button>
         </div>
     </div>

@@ -15,7 +15,7 @@
                     <!-- Device counter -->
                     <h2 class="text-lg font-bold">(2)</h2>
                 </div>
-                <a href="#" class="text-[#0157FE] text-xs underline font-semibold font-inter">Show More</a>
+                <a href="{{ route('device') }}" class="text-[#0157FE] text-xs underline font-semibold font-inter">Show More</a>
             </div>
             <!-- Device items -->
             <div class="space-y-2">
@@ -56,7 +56,7 @@
                                         <img src="../assets/img/ic_users_card.svg" alt="Users Icon">
                                         <h2 class="text-xl font-bold">Users List</h2>
                                     </div>
-                                    <a href="" class="text-[#0157FE] text-[12px] underline font-semibold font-['Inter']">Manage Users</a>
+                                    <a href="{{ route('users') }}" class="text-[#0157FE] text-[12px] underline font-semibold font-['Inter']">Manage Users</a>
                                 </div>
                             </th>
                         </tr>

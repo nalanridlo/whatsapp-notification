@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class UsersDropdown extends Component
+class UsersItems extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class UsersDropdown extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.users-dropdown');
+        return view('components.users-items');
     }
 }

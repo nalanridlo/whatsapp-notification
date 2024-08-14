@@ -9,23 +9,17 @@ class NavigationController extends Controller
 {
     public function dashboard()
     {
-        return view('components.dashboard', [
-            'activePage' => 'dashboard',
-        ]);
+        return view('components.dashboard');
     }
 
     public function users()
     {
-        return view('components.users', [
-            'activePage' => 'users',
-        ]);
+        return view('components.users');
     }
 
     public function device()
     {
-        return view('components.device', [
-            'activePage' => 'device',
-        ]);
+        return view('components.device');
     }
 
 }

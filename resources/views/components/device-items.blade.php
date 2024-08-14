@@ -14,11 +14,12 @@
 
     <!-- Actions Buttons -->
     <div class="flex space-x-2">
-        <a href="#" class="inline-flex items-center px-4 py-2 bg-[#D00000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
+        <a id="connection-btn" class="inline-flex items-center px-4 py-2 bg-[#D00000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
             Disconnect
         </a>
-        <a href="#" class="inline-flex items-center px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
+        <a id="delete-btn" class="inline-flex items-center px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
             Delete
         </a>
     </div>
 </div>
+
