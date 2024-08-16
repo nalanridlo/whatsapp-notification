@@ -8,6 +8,9 @@ use App\Services\FonnteService;
 
 class FonnteController extends Controller
 {
+
+    
+
     public function sendMessage(Request $request)
     {
         $target = $request->input('target');
