@@ -8,12 +8,18 @@ use Illuminate\Contracts\View\View;
 
 class AlertDeletion extends Component
 {
+    public $title;
+    public $message;
     /**
      * Create a new component instance.
+     *
+     * @param string $title
+     * @param string $message
      */
-    public function __construct()
+    public function __construct($title = '$title', $message = 'Default Message')
     {
-        //
+        $this->title = $title;
+        $this->message = $message;
     }
 
     /**

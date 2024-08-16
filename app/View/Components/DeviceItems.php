@@ -12,8 +12,9 @@ class DeviceItems extends Component
      * Create a new component instance.
      */
 
-     public $device ;
-     public $token ;
+    public $device ;
+    public $token ;
+
     public function __construct($device , $token )
     {
         //
