@@ -34,10 +34,8 @@ Route::post('/device/store', [DashboardController::class, 'storeDevice'])->name(
 Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
 Route::post('/device/{device}/requst-otp', [DashboardController::class, 'requestOtp'])->name('device.requstOtp');
 Route::post('/device/{device}/delete', [DashboardController::class, 'delete'])->name('device.delete');
- Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
- Route::post('/device/{device}/reconnect', [DashboardController::class, 'reconnect'])->name('device.reconnect');
-
-
+Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
+Route::post('/device/{device}/reconnect', [DashboardController::class, 'reconnect'])->name('device.reconnect');
 
 Route::resource('reminders', ReminderController::class);
 

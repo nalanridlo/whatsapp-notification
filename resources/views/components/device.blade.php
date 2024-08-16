@@ -29,7 +29,6 @@
 <x-deviceAdd />
 
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
