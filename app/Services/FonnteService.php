@@ -26,6 +26,7 @@ class FonnteService
         // Jika data tidak sesuai dengan yang diharapkan
         return ['status' => false, 'error' => 'Unexpected response format'];
 
+        return view('devices.index', compact('devices'));
     }
 
     public function __construct()

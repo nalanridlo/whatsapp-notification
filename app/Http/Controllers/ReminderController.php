@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Jobs\SendReminder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use App\Models\Notification;
 
 class ReminderController extends Controller
 {
@@ -41,6 +42,12 @@ class ReminderController extends Controller
         'expire_date' => $request->expire_date,
         'message' => $request->input('message', 'pesan ini merupakan peringatan bahwa anda akan expired date'),
         ]);
+        
+        Notification::create([
+            'title' => 'Insert Data',
+            'message' => 'User data inserted successfully!',
+            'status' => 'Success'
+        ]);
 
         // Gabungkan tanggal dan waktu untuk mendapatkan Unix timestamp
         $reminderDateTime = Carbon::parse($reminder->reminder_date . ' ' . $reminder->reminder_time, config('app.timezone'))->setTimezone('UTC');
@@ -50,13 +57,13 @@ class ReminderController extends Controller
         // Kirim permintaan ke Fonnte API untuk menjadwalkan pesan
         $this->sendScheduledMessage($reminder->phone_number, $reminder->message, $unixTimestamp);
 
-        return redirect()->route('reminders.index')->with('success', 'Message scheduled successfully!');
+        return redirect()->route('dashboard')->with('success', 'Reminder created successfully!');
     }
 
     private function sendScheduledMessage($phoneNumber, $message, $scheduleTimestamp)
     {
         $response = Http::withHeaders([
-            'Authorization' => 's4+Kg@Gg5gyu+--nioHV', // Ganti TOKEN dengan token Anda
+            'Authorization' => 'Br!aX1vJRVCe8DAKmAs8', // Ganti TOKEN dengan token Anda
         ])->post('https://api.fonnte.com/send', [
             'target' => $phoneNumber,
             'message' => $message,

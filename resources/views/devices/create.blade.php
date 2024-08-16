@@ -7,34 +7,50 @@
 </head>
 <body>
 <div class="container">
-    <h2>Add Device</h2>
-    @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <h1>Add New Device</h1>
+
+    <!-- Display error messages -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
-    @if (session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-    <form action="{{ route('devices.store') }}" method="POST">
+
+    <!-- Form untuk menambahkan perangkat baru -->
+    <form method="POST" action="{{ route('devices.store') }}">
         @csrf
-        <div class="form-group">
-            <label for="name">Device Name</label>
+        <div class="mb-3">
+            <label for="name" class="form-label">Device Name</label>
             <input type="text" name="name" id="name" class="form-control" required>
         </div>
-        <div class="form-group">
-            <label for="device">Device Number</label>
+        <div class="mb-3">
+            <label for="device" class="form-label">Device Number</label>
             <input type="text" name="device" id="device" class="form-control" required>
         </div>
-        <div class="form-group">
-            <label for="autoread">Activate Autoread</label>
-            <input type="checkbox" name="autoread" id="autoread" value="true">
+        <div class="mb-3">
+            <label for="autoread" class="form-label">Autoread</label>
+            <select name="autoread" id="autoread" class="form-control">
+                <option value="false" selected>Off</option>
+                <option value="true">On</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="personal">Autoread Personal Chat</label>
-            <input type="checkbox" name="personal" id="personal" value="true">
+        <div class="mb-3">
+            <label for="personal" class="form-label">Personal Autoread</label>
+            <select name="personal" id="personal" class="form-control">
+                <option value="false" selected>Off</option>
+                <option value="true">On</option>
+            </select>
         </div>
-        <div class="form-group">
-            <label for="group">Autoread Group Chat</label>
-            <input type="checkbox" name="group" id="group" value="true">
+        <div class="mb-3">
+            <label for="group" class="form-label">Group Autoread</label>
+            <select name="group" id="group" class="form-control">
+                <option value="false" selected>Off</option>
+                <option value="true">On</option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Add Device</button>
     </form>
