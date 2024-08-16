@@ -20,19 +20,31 @@
         <!-- Device items -->
         <div id="device-list" class="space-y-2">
             <x-device-items />
+            <x-device-items />
+            <x-device-items />
+            <x-device-items />
+            <x-device-items />
+            <x-device-items />
+            <x-device-items />
         </div>
     </div>
 </div>
 
 <x-device-add />
-<x-device-action-connect />
+<x-device-action-connection />
 <x-device-action-delete />
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
         const addUserPopup = document.getElementById('add-device-popup');
+
         const closePopupBtn = document.getElementById('popup-close');
+
+        const connectionBtn = document.getElementById('connection-btn');
+        const deleteBtn = document.querySelectorAll('.delete-btn');
+        const connectionPopup = document.getElementById('connect-device-popup'); 
+        const deletePopup = document.getElementById('delete-device-popup');
 
         // Open the popup when the button is clicked
         addUserBtn.addEventListener('click', function(event) {
@@ -57,30 +69,29 @@
                 addUserPopup.classList.add('hidden');
             }
         });
-    });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const connectionBtn = document.getElementById('connection-btn');
-        const deleteBtn = document.getElementById('delete-btn');
-        const connectionPopup = document.getElementById('connect-device-popup'); 
-        const deletePopup = document.getElementById('delete-device-popup');
-
+        // Open popup connection when button is clicked
         connectionBtn.addEventListener('click', function(event) {
             event.preventDefault();
             connectionPopup.classList.remove('hidden');
         });
 
-        deleteBtn.addEventListener('click', function(event){
-            event.preventDefault();
-            deletePopup.classList.remove('hidden');
+        // Open popup delete when button is clicked
+        deleteBtn.forEach(function(deleteDeviceBtn){
+            deleteDeviceBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                deletePopup.classList.remove('hidden');
+            });
         });
 
+        // Close the connection popup when clicking outside the main card
         connectionPopup.addEventListener('click', function(event) {
             if (event.target === connectionPopup) {
                 connectionPopup.classList.add('hidden');
             }
         });
 
+        // Close the delete popup when clicking outside the main card
         deletePopup.addEventListener('click', function(event) {
             if (event.target === deletePopup) {
                 deletePopup.classList.add('hidden');

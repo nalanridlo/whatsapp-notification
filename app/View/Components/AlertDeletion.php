@@ -16,7 +16,7 @@ class AlertDeletion extends Component
      * @param string $title
      * @param string $message
      */
-    public function __construct($title = 'Default Title', $message = 'Default Message')
+    public function __construct($title = '$title', $message = 'Default Message')
     {
         $this->title = $title;
         $this->message = $message;

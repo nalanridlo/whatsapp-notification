@@ -1,4 +1,4 @@
-<div class="w-[160px] bg-[#FFFFFF] p-4">
+<div id="sidebar" class="absolute top-0 left-0 w-full bg-white shadow-lg p-4 hidden lg:block lg:relative lg:top-0 lg:left-0 lg:w-40 lg:shadow-none z-50 transition-all duration-300 ease-in-out">
     <ul class="text-black space-y-4">
         <li class="flex items-center">
             <a href="{{ route('dashboard') }}" class="sidebar-link block py-2 px-4 flex items-center 

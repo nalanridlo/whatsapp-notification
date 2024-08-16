@@ -27,3 +27,13 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutPopup.classList.add('hidden');
     });
 });
+
+document.getElementById('hamburger-btn').addEventListener('click', function() {
+    var sidebar = document.getElementById('sidebar');
+    var main = document.getElementById('main-content');
+    sidebar.classList.toggle('hidden');
+    sidebar.classList.toggle('absolute');
+    sidebar.classList.toggle('top-full');
+
+    main.classList.toggle('hidden');
+});

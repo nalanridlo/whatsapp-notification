@@ -64,7 +64,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
         const addUserPopup = document.getElementById('add-user-popup');
-        const deleteUserBtn = document.getElementById('users-delete-btn');
+        const deleteUserBtn = document.querySelectorAll('.users-delete-btn');
         const submitUserBtn = document.getElementById('submit-btn');
         const alertConfirmation = document.getElementById('alert-confirmation');
         const deleteConfirmation = document.getElementById('alert-deletion');
@@ -101,9 +101,12 @@
         });
 
         // Show delete confirmation alert before deleting
-        deleteUserBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            deleteConfirmation.classList.remove('hidden');
+        deleteUserBtn.forEach(function(deleteUserBtn) {
+            deleteUserBtn.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default action
+                // Show delete confirmation alert
+                deleteConfirmation.classList.remove('hidden');
+            });
         });
     });
 </script>

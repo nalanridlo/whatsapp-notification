@@ -26,7 +26,7 @@
         <!-- left navigation -->
         <x-sidebar />
         <!-- main content -->
-        <main id="main-content" class="flex-1 bg-[#ECF0F5] p-[20px]">
+        <main id="main-content" class="flex-1 bg-[#ECF0F5] overflow-auto p-5 transition-all duration-300 ease-in-out">
             @yield('content')
         </main>
     </div>

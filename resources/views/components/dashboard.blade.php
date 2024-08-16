@@ -3,42 +3,27 @@
 @section('title', 'dashboard')
 
 @section('content')
-<div class="grid grid-cols-2 gap-[20px]">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
     <!-- Left Column: Device Connected and Users List -->
     <div class="space-y-[20px]">
         <!-- Card 1: Device Connected List -->
         <div class="bg-white rounded-[20px] p-[20px] border-[3px] border-[#0157FE] max-h-[200px] overflow-y-auto">
             <div class="flex items-center justify-between mb-[12px]">
                 <div class="flex items-center space-x-2">
-                    <img src="../assets/img/ic_devices_card.svg" alt="Devices Icon" class="w-6 h-6">
-                    <h2 class="text-lg font-bold">All Device</h2>
+                    <img src="../assets/img/ic_devices_card.svg" alt="Devices Icon" class="lg:w-6 lg:h-6 w-4 h-4">
+                    <h2 class="lg:text-lg font-bold text-sm">All Device</h2>
                     <!-- Device counter -->
-                    <h2 class="text-lg font-bold">(2)</h2>
+                    <h2 class="lg:text-lg font-bold text-sm">(1)</h2>
                 </div>
-                <a href="{{ route('device') }}" class="text-[#0157FE] text-xs underline font-semibold font-inter">Show More</a>
+                <a href="{{ route('device') }}" class="text-[#0157FE] lg:text-xs text-[9px] underline font-semibold">Show More</a>
             </div>
             <!-- Device items -->
             <div class="space-y-2">
                 <div class="flex justify-between items-center">
-                    <div class="text-sm font-semibold">Admin 1 - 08686849694968</div>
+                    <div class="lg:text-sm text-xs font-semibold mr-[32px]">Admin 1 08686849694968</div>
                     <div class="flex items-center">
-                        <span class="text-green-600 text-sm">Connected</span>
+                        <span class="hidden lg:inline md:inline lg:text-green-600 md:text-green-600 lg:text-sm text-xs">Connected</span>
                         <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center">
-                    <div class="text-sm font-semibold">Admin 2 - 08686849694968</div>
-                    <div class="flex items-center">
-                        <span class="text-red-600 text-sm">Disconnected</span>
-                        <span class="ml-2 h-3 w-3 bg-red-600 rounded-full"></span>
-                    </div>
-                </div>
-                <!-- Add more items, but will only show 3 -->
-                <div class="flex justify-between items-center">
-                    <div class="text-sm font-semibold text-gray-400">Admin 3 - 08686849694968</div>
-                    <div class="flex items-center">
-                        <span class="text-sm text-gray-400">Disconnected</span>
-                        <span class="ml-2 h-3 w-3 bg-gray-400 rounded-full"></span>
                     </div>
                 </div>
             </div>
@@ -53,36 +38,28 @@
                             <th class="p-[10px] text-left text-sm font-semibold" colspan="4">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center space-x-4">
-                                        <img src="../assets/img/ic_users_card.svg" alt="Users Icon">
-                                        <h2 class="text-xl font-bold">Users List</h2>
+                                        <img src="../assets/img/ic_users_card.svg" alt="Users Icon" class="lg:w-6 lg:h-6 w-4 h-4">
+                                        <h2 class="lg:text-lg font-bold text-sm">Users List</h2>
                                     </div>
-                                    <a href="{{ route('users') }}" class="text-[#0157FE] text-[12px] underline font-semibold font-['Inter']">Manage Users</a>
+                                    <a href="{{ route('users') }}" class="text-[#0157FE] lg:text-xs text-[9px] underline font-semibold">Manage Users</a>
                                 </div>
                             </th>
                         </tr>
                         <tr class="border-b border-[#E0E0E0]">
-                            <th class="p-[10px] text-left text-sm font-semibold w-[25%] border-r border-[#E0E0E0]">Nama</th>
-                            <th class="p-[10px] text-left text-sm font-semibold w-[25%] border-r border-[#E0E0E0]">Tanggal Lahir</th>
-                            <th class="p-[10px] text-left text-sm font-semibold w-[25%] border-r border-[#E0E0E0]">Nomor WhatsApp</th>
-                            <th class="p-[10px] text-left text-sm font-semibold w-[25%]">Tanggal Berakhir</th>
+                            <th class="p-[10px] text-left lg:text-sm md:text-xs font-semibold text-[9px] w-[25%] border-r border-[#E0E0E0]">Nama</th>
+                            <th class="p-[10px] text-left lg:text-sm md:text-xs font-semibold text-[9px] w-[25%] border-r border-[#E0E0E0]">Tanggal Lahir</th>
+                            <th class="p-[10px] text-left lg:text-sm md:text-xs font-semibold text-[9px] w-[25%] border-r border-[#E0E0E0]">Nomor WhatsApp</th>
+                            <th class="p-[10px] text-left lg:text-sm md:text-xs font-semibold text-[9px] w-[25%]">Tanggal Berakhir</th>
                         </tr>
                     </thead>
                     <tbody>
                         <!-- User data rows -->
                         <tr class="border-b border-[#E0E0E0]">
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 1</td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 2</td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 3</td>
-                            <td class="p-[10px] w-[25%]">Data 4</td>
+                            <td class="lg:p-[10px] w-[25%] lg:text-sm md:text-xs text-[9px] border-r border-[#E0E0E0]">Muhammad Zidan Tifanno Nurfidausyi</td>
+                            <td class="lg:p-[10px] w-[25%] lg:text-sm md:text-xs text-[9px] border-r border-[#E0E0E0]">Data 2</td>
+                            <td class="lg:p-[10px] w-[25%] lg:text-sm md:text-xs text-[9px] border-r border-[#E0E0E0]">Data 3</td>
+                            <td class="lg:p-[10px] w-[25%] lg:text-sm md:text-xs text-[9px]">Data 4</td>
                         </tr>
-
-                        <tr class="border-b border-[#E0E0E0]">
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 1</td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 2</td>
-                            <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">Data 3</td>
-                            <td class="p-[10px] w-[25%]">Data 4</td>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
@@ -93,8 +70,8 @@
         <div class="bg-white rounded-[20px] p-[20px] flex flex-col  overflow-y-auto ">
             <div class="flex items-center justify-between mb-[12px]">
                 <div class="flex items-center space-x-4">
-                    <img src="../assets/img/ic_notification.svg" alt="Notification Icon">
-                    <h2 class="text-xl font-bold">Notification</h2>
+                    <img src="../assets/img/ic_notification.svg" alt="Notification Icon" class="lg:w-6 lg:h-6 w-4 h-4">
+                    <h2 class="lg:text-lg font-bold text-sm">Notification</h2>
                 </div>
             </div>
             <div class="space-y-2">
@@ -102,47 +79,11 @@
                 <!-- Example of a single item -->
                 <div class="flex justify-between items-center border-[#E3E3E3] border-[1px] rounded-[10px] p-[10px]">
                     <div>
-                        <h2 class="font-semibold text-[12px]">Insert Data</h2>
-                        <h2 class="font-light text-[10px]">User data uploaded successfully</h2>
+                        <h2 class="hidden lg:inline font-semibold text-[12px]">Insert Data</h2>
+                        <h2 class="lg:font-light md:font-semibold sm:font-semibold font-semibold text-[10px]">User data uploaded successfully</h2>
                     </div>
                     <div class="flex items-center">
-                        <span class="text-black text-sm">Status: </span>
-                        <span class="text-green-600 text-sm">Success</span>
-                        <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
-                    </div>
-                </div>
-                <!-- Repeat notification items as needed -->
-                <div class="flex justify-between items-center border-[#E3E3E3] border-[1px] rounded-[10px] p-[10px]">
-                    <div>
-                        <h2 class="font-semibold text-[12px]">Insert Data</h2>
-                        <h2 class="font-light text-[10px]">User data uploaded successfully</h2>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-black text-sm">Status: </span>
-                        <span class="text-green-600 text-sm">Success</span>
-                        <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center border-[#E3E3E3] border-[1px] rounded-[10px] p-[10px]">
-                    <div>
-                        <h2 class="font-semibold text-[12px]">Insert Data</h2>
-                        <h2 class="font-light text-[10px]">User data uploaded successfully</h2>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-black text-sm">Status: </span>
-                        <span class="text-green-600 text-sm">Success</span>
-                        <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
-                    </div>
-                </div>
-                <div class="flex justify-between items-center border-[#E3E3E3] border-[1px] rounded-[10px] p-[10px]">
-                    <div>
-                        <h2 class="font-semibold text-[12px]">Insert Data</h2>
-                        <h2 class="font-light text-[10px]">User data uploaded successfully</h2>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-black text-sm">Status: </span>
-                        <span class="text-green-600 text-sm">Success</span>
-                        <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
+                        <span class="text-white lg:text-sm md:text-sm sm:text-sm text-xs border border-grey-300 rounded-full px-2 py-1 bg-green-600">  Success</span>
                     </div>
                 </div>
             </div>

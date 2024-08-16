@@ -17,7 +17,7 @@
         <a id="connection-btn" class="inline-flex items-center px-4 py-2 bg-[#D00000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
             Disconnect
         </a>
-        <a id="delete-btn" class="inline-flex items-center px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
+        <a id="" class="delete-btn inline-flex items-center px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
             Delete
         </a>
     </div>
