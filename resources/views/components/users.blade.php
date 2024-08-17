@@ -20,8 +20,8 @@
 
                                     <!-- Search Form -->
                                     <div class="flex-1 max-w-sm">
-                                        <form class="relative">
-                                            <input type="text" placeholder="Search..." class="w-full p-2 pl-10 border border-gray-300 rounded-full">
+                                        <form id="search-form" class="relative">
+                                            <input type="search" name="search" id="search-input" placeholder="Search..." class="w-full p-2 pl-10 border border-gray-300 rounded-full">
                                             <img class="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" src="../assets/img/ic_search.svg" />
                                         </form>
                                     </div>
@@ -44,24 +44,15 @@
                     </thead>
                     <tbody>
                         @foreach($reminders as $reminder)
-                        <tr class="users-items border-b border-[#E0E0E0] group">
+                        <tr class="border-b border-[#E0E0E0] group">
                             <td class="p-[10px] w-[25%] border-r border-[#E0E0E0] relative">
                                 <!-- Container for Buttons and Text -->
                                 <div class="flex items-center space-x-2">
                                     <!-- Button Container (initially hidden) -->
                                     <div class="absolute ml-[4px] left-0 top-1/2 transform -translate-y-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
-                                        <!-- More Options Button -->
-                                        <!-- <button id="users-more-btn" class="rounded-full p-2 bg-gray-100 hover:bg-gray-200">
-                                            <svg fill="#000000" class="w-[24px] h-[24px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M6,5H16a2,2,0,0,1,2,2v7" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                                                <path d="M18,19H8a2,2,0,0,1-2-2V10" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                                                <polyline points="15 11 18 14 21 11" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
-                                                <polyline points="9 13 6 10 3 13" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
-                                            </svg>
-                                        </button> -->
 
-                                        <!-- Delete Button -->
-                                        <button id="users-delete-btn" class="rounded-full p-2 bg-[#D00000] hover:bg-[#b00000]">
+                                        <!-- Delete Button items users -->
+                                        <button id="" data-id="{{ $reminder->id }}" class="users-items rounded-full p-2 bg-[#D00000] hover:bg-[#b00000]">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                                 <path fill="none" d="M0 0h24v24H0V0z"></path>
                                                 <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zm3.17-7.83c.39-.39 1.02-.39 1.41 0L12 12.59l1.42-1.42c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L13.41 14l1.42 1.42c.39.39.39 1.02 0 1.41-.39.39-1.02.39-1.41 0L12 15.41l-1.42 1.42c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41L10.59 14l-1.42-1.42c-.39-.38-.39-1.02 0-1.41zM15.5 4l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"></path>
@@ -86,40 +77,179 @@
 </div>
 <x-users-add />
 
-<x-alert-confirmation id="alert-confirmation"  />
+<x-alert-confirmation id="alert-confirmation" />
 
-<x-alert-deletion id="alert-deletion"  />
+<x-alert-deletion id="alert-deletion" />
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const addUserBtn = document.getElementById('add-user-btn');
         const addUserPopup = document.getElementById('add-user-popup');
-        const deleteUserBtn = document.getElementById('users-delete-btn');
+        // const deleteUserBtn = document.getElementById('users-delete-btn');
         const submitUserBtn = document.getElementById('submit-btn');
         const alertConfirmation = document.getElementById('alert-confirmation');
         const deleteConfirmation = document.getElementById('alert-deletion');
-        const closePopupBtn = document.getElementById('popup-close');
+        const closePopupBtn = document.getElementById('popup-close-btn');
 
         const usersItems = document.querySelectorAll('.users-items');
 
-        usersItems.forEach(function(userItem) {
-        // Mencari tombol delete dan more options di dalam elemen userItem
-        const deleteUserBtn = userItem.querySelector('#users-delete-btn');
-        const moreOptionsBtn = userItem.querySelector('#users-more-btn');
 
-        // Menambahkan event listener pada tombol delete
-        deleteUserBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            deleteConfirmation.classList.remove('hidden');
+        usersItems.forEach(function(deleteUsersBtn) {
+            deleteUsersBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+                deleteConfirmation.classList.remove('hidden');
+            });
         });
 
-        // Menambahkan event listener pada tombol more options
-        moreOptionsBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            alertConfirmation.classList.remove('hidden');
+        $(document).ready(function() {
+            $('.users-items').on('click', function(e) {
+                e.preventDefault();
+                var $item = $(this).closest('tr');
+                var reminderId = $(this).data('id');
+
+                deleteConfirmation.classList.remove('hidden');
+
+                // Add confirmation logic here
+                const confirmDeleteBtn = deleteConfirmation.querySelector('button[type="submit-btn"]');
+                const cancelDeleteBtn = deleteConfirmation.querySelector('#popup-close-btn');
+
+                function hideDeleteConfirmation() {
+                    deleteConfirmation.classList.add('hidden');
+                    // Remove event listeners to prevent memory leaks
+                    confirmDeleteBtn.removeEventListener('click', handleDelete);
+                    cancelDeleteBtn.removeEventListener('click', hideDeleteConfirmation);
+                }
+
+                function handleDelete() {
+                    $.ajax({
+                        url: "{{ route('reminders.delete', ':id') }}".replace(':id', reminderId),
+                        type: 'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $item.remove();
+
+                            } else {
+                                alert('Failed to delete reminder');
+                            }
+                            hideDeleteConfirmation();
+                        },
+                        error: function() {
+                            alert('An error occurred while deleting the reminder');
+                            hideDeleteConfirmation();
+                        }
+                    });
+                }
+
+                confirmDeleteBtn.addEventListener('click', handleDelete);
+                cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+            });
+        });
+
+        const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value;
+        
+        $.ajax({
+            url: "{{ route('reminders.search') }}",
+            method: 'GET',
+            data: { search: searchTerm },
+            success: function(response) {
+                updateTable(response);
+            },
+            error: function(xhr) {
+                console.log('Error in search: ' + xhr.statusText);
+            }
         });
     });
 
+    function updateTable(reminders) {
+        const tbody = document.querySelector('tbody');
+        tbody.innerHTML = ''; // Clear current table content
+
+        reminders.forEach(function(reminder) {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-[#E0E0E0] group';
+            tr.innerHTML = `
+                <td class="p-[10px] w-[25%] border-r border-[#E0E0E0] relative">
+                    <div class="flex items-center space-x-2">
+                        <div class="absolute ml-[4px] left-0 top-1/2 transform -translate-y-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
+                            <button class="users-items rounded-full p-2 bg-[#D00000] hover:bg-[#b00000]" data-id="${reminder.id}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="none" d="M0 0h24v24H0V0z"></path>
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v10zm3.17-7.83c.39-.39 1.02-.39 1.41 0L12 12.59l1.42-1.42c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41L13.41 14l1.42 1.42c.39.39.39 1.02 0 1.41-.39.39-1.02.39-1.41 0L12 15.41l-1.42 1.42c-.39.39-1.02.39-1.41 0-.39-.39-.39-1.02 0-1.41L10.59 14l-1.42-1.42c-.39-.38-.39-1.02 0-1.41zM15.5 4l-.71-.71c-.18-.18-.44-.29-.7-.29H9.91c-.26 0-.52.11-.7.29L8.5 4H6c-.55 0-1 .45-1 1s.45 1 1 1h12c.55 0 1-.45 1-1s-.45-1-1-1h-2.5z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <span class="ml-[50px] group-hover:ml-24 transition-all duration-200 ease-in-out">${reminder.nama}</span>
+                    </div>
+                </td>
+                <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">${reminder.tanggalLahir}</td>
+                <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">${reminder.phone_number}</td>
+                <td class="p-[10px] w-[25%]">${reminder.expire_date}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        // Reattach event listeners for delete buttons
+        attachDeleteListeners();
+    }
+
+    function attachDeleteListeners() {
+        $('.users-items').on('click', function(e) {
+            // ... (kode delete yang sudah ada)
+            e.preventDefault();
+                var $item = $(this).closest('tr');
+                var reminderId = $(this).data('id');
+
+                deleteConfirmation.classList.remove('hidden');
+
+                // Add confirmation logic here
+                const confirmDeleteBtn = deleteConfirmation.querySelector('button[type="submit-btn"]');
+                const cancelDeleteBtn = deleteConfirmation.querySelector('#popup-close-btn');
+
+                function hideDeleteConfirmation() {
+                    deleteConfirmation.classList.add('hidden');
+                    // Remove event listeners to prevent memory leaks
+                    confirmDeleteBtn.removeEventListener('click', handleDelete);
+                    cancelDeleteBtn.removeEventListener('click', hideDeleteConfirmation);
+                }
+
+                function handleDelete() {
+                    $.ajax({
+                        url: "{{ route('reminders.delete', ':id') }}".replace(':id', reminderId),
+                        type: 'DELETE',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                $item.remove();
+
+                            } else {
+                                alert('Failed to delete reminder');
+                            }
+                            hideDeleteConfirmation();
+                        },
+                        error: function() {
+                            alert('An error occurred while deleting the reminder');
+                            hideDeleteConfirmation();
+                        }
+                    });
+                }
+
+                confirmDeleteBtn.addEventListener('click', handleDelete);
+                cancelDeleteBtn.addEventListener('click', hideDeleteConfirmation);
+        });
+    }
+
+        closePopupBtn.addEventListener('click', function() {
+            deleteConfirmation.classList.add('hidden');
+        });
         // Open the popup when the button is clicked
         addUserBtn.addEventListener('click', function(event) {
             event.preventDefault();
@@ -144,11 +274,6 @@
             }
         });
 
-        // Show Confirmation Alert before Submiting
-        submitUserBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            alertConfirmation.classList.remove('hidden');
-        });
         deleteUserBtn.addEventListener('click', function(event) {
             event.preventDefault();
             deleteConfirmation.classList.remove('hidden');

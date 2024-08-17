@@ -18,7 +18,7 @@
         const closeBtn = document.getElementById('popup-close-btn');
 
         closeBtn.addEventListener('click', function() {
-            alertConfirmation.classList.add('hidden');
+            alertDeletion.classList.add('hidden');
         });
     });
 </script>

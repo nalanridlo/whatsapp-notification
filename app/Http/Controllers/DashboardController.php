@@ -14,59 +14,118 @@ class DashboardController extends Controller
 
     public function storeUsers(Request $request)
     {
-        // Validasi input
         $request->validate([
             'nama' => 'required|string',
-        'phone_number' => 'required|string',
-        'tanggalLahir' => 'required|date',
-        'reminder_date' => 'required|date',
-        'expire_date' => 'required|date',
+            'phone_number' => 'required|string',
+            'tanggalLahir' => 'required|date',
+            'expire_date' => 'required|date',
         ]);
 
-        // Simpan data ke database
+        $expireDate = Carbon::parse($request->expire_date);
+        $reminderDate = $expireDate->copy()->subYears(4);
+
         $reminder = Reminder::create([
             'nama' => $request->nama,
-        'phone_number' => $request->phone_number,
-        'tanggalLahir' => $request->tanggalLahir,
-        'reminder_date' => $request->reminder_date,
-        'expire_date' => $request->expire_date,
-        'message' => $request->input('message', 'pesan ini merupakan peringatan bahwa anda akan expired date'),
+            'phone_number' => $request->phone_number,
+            'tanggalLahir' => $request->tanggalLahir,
+            'reminder_date' => $reminderDate,
+            'expire_date' => $expireDate,
+            'message' => $request->input('message', 'Peringatan: Anda akan memasuki tahun keempat. Harap perbarui data Anda.'),
         ]);
-        
+
         Notification::create([
             'title' => 'Insert Data',
             'message' => 'User data inserted successfully!',
             'status' => 'Success'
         ]);
 
-        // Gabungkan tanggal dan waktu untuk mendapatkan Unix timestamp
-        $reminderDateTime = Carbon::parse($reminder->reminder_date . ' ' . $reminder->reminder_time, config('app.timezone'))->setTimezone('UTC');
-        $unixTimestamp = $reminderDateTime->timestamp;
-
-
-        // Kirim permintaan ke Fonnte API untuk menjadwalkan pesan
-        $this->sendScheduledMessage($reminder->phone_number, $reminder->message, $unixTimestamp);
+        // Jadwalkan pesan untuk empat tahun ke depan
+        $this->scheduleAnnualReminders($reminder);
 
         return redirect()->route('users')->with('success', 'Reminder created successfully!');
     }
 
-    private function sendScheduledMessage($phoneNumber, $message, $scheduleTimestamp)
+    private function scheduleAnnualReminders(Reminder $reminder)
     {
-        $response = Http::withHeaders([
-            'Authorization' => 'Br!aX1vJRVCe8DAKmAs8', // Ganti TOKENDevice dengan token Anda
-        ])->post('https://api.fonnte.com/send', [
-            'target' => $phoneNumber,
-            'message' => $message,
-            'schedule' => $scheduleTimestamp,
-            'countryCode' => '62', // Optional
-        ]);
+        $expireDate = Carbon::parse($reminder->expire_date);
+        $currentDate = Carbon::parse($reminder->reminder_date);
 
-        if ($response->failed()) {
-            // Tangani jika ada error
-            throw new \Exception('Failed to schedule message: ' . $response->body());
+        while ($currentDate->lte($expireDate)) {
+            $scheduleTimestamp = $currentDate->copy()->setTimezone('UTC')->timestamp;
+            $this->sendScheduledMessage($reminder->phone_number, $reminder->message, $scheduleTimestamp);
+
+            $currentDate->addYear();
+        }
+    }
+
+    private function sendScheduledMessage($phone_number, $message, $scheduleTimestamp)
+    {
+        // Format nomor telepon
+        $formattedPhone = $this->formatPhoneNumber($phone_number);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.fonnte.com/send',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                'target' => $formattedPhone,
+                'message' => $message,
+                'schedule' => $scheduleTimestamp,
+                'countryCode' => '62', //optional
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token Anda yang sebenarnya
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $error = null;
+
+        if (curl_errno($curl)) {
+            $error = curl_error($curl);
         }
 
-        return $response->json();
+        curl_close($curl);
+
+        if ($error) {
+            Log::error('Failed to schedule message', [
+                'phone' => $formattedPhone,
+                'schedule' => $scheduleTimestamp,
+                'error' => $error
+            ]);
+        } else {
+            Log::info('Message scheduled successfully', [
+                'phone' => $formattedPhone,
+                'schedule' => $scheduleTimestamp,
+                'response' => $response
+            ]);
+        }
+
+        return $response;
+    }
+    private function formatPhoneNumber($phone_number)
+    {
+        // Hapus semua karakter non-digit
+        $number = preg_replace('/[^0-9]/', '', $phone_number);
+
+        // Jika dimulai dengan '0', ganti dengan '62'
+        if (substr($number, 0, 1) === '0') {
+            $number = '62' . substr($number, 1);
+        }
+
+        // Jika belum dimulai dengan '62', tambahkan di depan
+        if (substr($number, 0, 2) !== '62') {
+            $number = '62' . $number;
+        }
+
+        return $number;
     }
 
     public function dashboard()
@@ -92,22 +151,22 @@ class DashboardController extends Controller
             'otp' => 'required|string|size:6',
             'token' => 'required|string'
         ]);
-    
+
         $otp = $request->input('otp');
         $token = $request->input('token');
-    
+
         Log::info("Attempting to delete device: $device with OTP: $otp");
-    
+
         $response = Http::withHeaders([
             'Authorization' => $token,
         ])->asForm()->post('https://api.fonnte.com/delete-device', [
             'otp' => $otp
         ]);
-    
+
         Log::info('Delete Device Response: ' . $response->body());
-    
+
         $responseData = $response->json();
-    
+
         if ($response->successful() && isset($responseData['status']) && $responseData['status']) {
             Log::info("Device $device deleted successfully");
             return redirect()->route('device')->with('success', 'Device deleted successfully!');
@@ -118,65 +177,65 @@ class DashboardController extends Controller
         }
     }
 
-public function requestOtp(Request $request, $device)
-{
-    $token = $request->input('token');
-    
-    // Kirim permintaan OTP
-    $response = Http::withHeaders([
-        'Authorization' => $token
-    ])->post('https://api.fonnte.com/delete-device', [
-        'otp' => '' // Kosongkan OTP saat permintaan awal
-    ]);
+    public function requestOtp(Request $request, $device)
+    {
+        $token = $request->input('token');
 
-    if ($response->successful()) {
-        // Redirect ke halaman input OTP
-        return view('device', compact('device', 'token'));
-    } else {
-        return back()->with('error', 'Failed to request OTP.');
+        // Kirim permintaan OTP
+        $response = Http::withHeaders([
+            'Authorization' => $token
+        ])->post('https://api.fonnte.com/delete-device', [
+            'otp' => '' // Kosongkan OTP saat permintaan awal
+        ]);
+
+        if ($response->successful()) {
+            // Redirect ke halaman input OTP
+            return view('device', compact('device', 'token'));
+        } else {
+            return back()->with('error', 'Failed to request OTP.');
+        }
     }
-}
 
-public function reconnect(Request $request, $device)
-{
-    $token = $request->input('token'); // Mendapatkan token dari permintaan
-    $whatsappNumber = $request->input('whatsapp'); // Nomor WhatsApp terkait
+    public function reconnect(Request $request, $device)
+    {
+        $token = $request->input('token'); // Mendapatkan token dari permintaan
+        $whatsappNumber = $request->input('whatsapp'); // Nomor WhatsApp terkait
 
-    // Kirim permintaan ke API untuk mendapatkan QR code
-    $response = Http::withHeaders([
-        'Authorization' => $token,
-    ])->asForm()->post('https://api.fonnte.com/qr', [
-        'type' => 'qr',
-        'whatsapp' => $whatsappNumber,
-    ]);
+        // Kirim permintaan ke API untuk mendapatkan QR code
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->asForm()->post('https://api.fonnte.com/qr', [
+            'type' => 'qr',
+            'whatsapp' => $whatsappNumber,
+        ]);
 
-    // Log respons dari API
-    Log::info('Reconnect Device Response: ' . $response->body());
+        // Log respons dari API
+        Log::info('Reconnect Device Response: ' . $response->body());
 
-    // Cek apakah respons berhasil dan statusnya true
-    $responseData = $response->json();
-    if ($response->successful() && isset($responseData['status']) && $responseData['status']) {
-        $qrUrl = $responseData['url'];
-        return view('devices.reconnect', compact('qrUrl', 'device'));
-    } else {
-        $errorMessage = $responseData['reason'] ?? 'Unknown error';
-        Log::error("Failed to reconnect device $device. Error: $errorMessage");
-        return redirect()->route('devices.index')->with('error', "Failed to reconnect device: $errorMessage");
+        // Cek apakah respons berhasil dan statusnya true
+        $responseData = $response->json();
+        if ($response->successful() && isset($responseData['status']) && $responseData['status']) {
+            $qrUrl = $responseData['url'];
+            return view('devices.reconnect', compact('qrUrl', 'device'));
+        } else {
+            $errorMessage = $responseData['reason'] ?? 'Unknown error';
+            Log::error("Failed to reconnect device $device. Error: $errorMessage");
+            return redirect()->route('devices.index')->with('error', "Failed to reconnect device: $errorMessage");
+        }
     }
-}
 
     public function disconnect(Request $request, $device)
     {
         $token = $request->input('token');
-        
+
         // Kirim permintaan ke API untuk memutuskan koneksi perangkat
         $response = Http::withHeaders([
             'Authorization' => $token,
         ])->post('https://api.fonnte.com/disconnect');
-    
+
         // Log respons dari API
         Log::info('Disconnect Device Response: ' . $response->body());
-    
+
         // Cek apakah respons berhasil dan statusnya true
         $responseData = $response->json();
         if ($response->successful() && isset($responseData['status']) && $responseData['status']) {
@@ -194,7 +253,7 @@ public function reconnect(Request $request, $device)
         $request->validate([
             'name' => 'required|string|min:2|max:30',
             'device' => 'required|string|min:8|max:15',
-           
+
         ]);
 
         $response = Http::withHeaders([
@@ -202,7 +261,7 @@ public function reconnect(Request $request, $device)
         ])->post('https://api.fonnte.com/add-device', [
             'name' => $request->name,
             'device' => $request->device,
-            
+
         ]);
 
         if ($response->successful()) {
@@ -214,23 +273,23 @@ public function reconnect(Request $request, $device)
 
     public function device()
     {
-         // Ambil data devices
-    $token = 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT';
-    $response = Http::withHeaders([
-        'Authorization' => $token,
-    ])->post('https://api.fonnte.com/get-devices');
+        // Ambil data devices
+        $token = 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT';
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->post('https://api.fonnte.com/get-devices');
 
-    $devices = [];
-    if (isset($response['status']) && $response['status']) {
-        $devices = $response['data'] ?? [];
+        $devices = [];
+        if (isset($response['status']) && $response['status']) {
+            $devices = $response['data'] ?? [];
+        }
+
+        return view('components.device', [
+            'activePage' => 'device',
+            'devices' => $devices,
+        ]);
     }
 
-    return view('components.device', [
-        'activePage' => 'device',
-        'devices' => $devices,
-    ]);
-    }
-    
     public function index()
     {
         // Ambil data devices
@@ -247,8 +306,8 @@ public function reconnect(Request $request, $device)
         // Ambil data reminders
         $reminders = Reminder::all();
 
-         // Ambil data notifikasi
-         $notifications = Notification::latest()->take(6)->get();
+        // Ambil data notifikasi
+        $notifications = Notification::latest()->take(6)->get();
 
         // Kirim kedua data ke view
         return view('components.dashboard', compact('devices', 'reminders', 'notifications'));

@@ -24,10 +24,6 @@
             </div>
             <!-- Form Expired Date -->
             <div class="mb-4">
-                <label for="reminder_date" class="block text-sm font-medium text-gray-700">Tanggal Berakhir</label>
-                <input type="date" name="reminder_date" id="reminder_date" placeholder="Tanggal Berakhir" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div class="mb-4">
                 <label for="expire_date" class="block text-sm font-medium text-gray-700">Tanggal Berakhir</label>
                 <input type="date" name="expire_date" id="expire_date" placeholder="Tanggal Berakhir" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
