@@ -23,6 +23,7 @@ class ReminderController extends Controller
     {
         return view('reminders.create');
     }
+    
 
     public function store(Request $request)
     {

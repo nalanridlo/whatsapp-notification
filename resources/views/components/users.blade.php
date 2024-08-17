@@ -59,7 +59,7 @@
                                             </svg>
                                         </button>
                                     </div>
-
+                                        
                                     <!-- Data Text -->
                                     <span class="ml-[50px] group-hover:ml-24 transition-all duration-200 ease-in-out">{{ $reminder->nama }}</span>
                                 </div>
