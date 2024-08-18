@@ -21,7 +21,9 @@ Route::get('/', function () {
     return view('layouts.welcome');
 });
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -34,8 +36,8 @@ Route::post('/device/store', [DashboardController::class, 'storeDevice'])->name(
 Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
 Route::post('/device/{device}/requst-otp', [DashboardController::class, 'requestOtp'])->name('device.requstOtp');
 Route::post('/device/{device}/delete', [DashboardController::class, 'delete'])->name('device.delete');
- Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
- Route::post('/device/{device}/reconnect', [DashboardController::class, 'reconnect'])->name('device.reconnect');
+Route::post('/device/{device}/disconnect', [DashboardController::class, 'disconnect'])->name('device.disconnect');
+Route::post('/device/{device}/reconnect', [DashboardController::class, 'reconnect'])->name('device.reconnect');
 
 
 
@@ -59,4 +61,3 @@ Route::post('/devices/{device}/reconnect', [DeviceController::class, 'reconnect'
 // Route::delete('/reminders/{id}', [ReminderController::class, 'delete'])->name('reminders.delete');
 Route::delete('/reminders/{reminder}', [ReminderController::class, 'delete'])->name('reminders.delete');
 Route::get('/reminders/search', 'ReminderController@search')->name('reminders.search');
-

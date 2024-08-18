@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    public function showLoginForm()
+{
+    return view('layouts.welcome');
+}
     public function login(Request $request)
     {
         $username = $request->input('username');
@@ -19,6 +23,11 @@ class AuthController extends Controller
             // Jika login gagal, redirect kembali ke halaman login dengan pesan error
             return redirect()->back()->withErrors(['Invalid username or password.']);
         }
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
 
 }
