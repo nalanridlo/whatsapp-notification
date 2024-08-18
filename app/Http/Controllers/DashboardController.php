@@ -25,13 +25,11 @@ class DashboardController extends Controller
         ]);
 
         $expireDate = Carbon::parse($request->expire_date);
-        $reminderDate = $expireDate->copy()->subYears(4);
 
         $reminder = Reminder::create([
             'nama' => $request->nama,
             'phone_number' => $request->phone_number,
             'tanggalLahir' => $request->tanggalLahir,
-            'reminder_date' => $reminderDate,
             'expire_date' => $expireDate,
             'message' => $request->input('message', 'Peringatan: Anda akan memasuki tahun keempat. Harap perbarui data Anda.'),
         ]);
@@ -43,27 +41,66 @@ class DashboardController extends Controller
         ]);
 
         // Jadwalkan pesan untuk empat tahun ke depan
-        $this->scheduleAnnualReminders($reminder);
+        $this->scheduleReminders($reminder);
 
         return redirect()->route('users')->with('success', 'Reminder created successfully!');
     }
 
-    private function scheduleAnnualReminders(Reminder $reminder)
-    {
-        $expireDate = Carbon::parse($reminder->expire_date);
-        $currentDate = Carbon::parse($reminder->reminder_date);
+    private function scheduleReminders(Reminder $reminder)
+{
+    $expireDate = Carbon::parse($reminder->expire_date);
+    $reminderDates = [
+        $expireDate->copy()->subYear(),    // 1 tahun sebelum expire
+        $expireDate->copy()->subMonths(6), // 6 bulan sebelum expire
+        $expireDate->copy()->subMonths(3), // 3 bulan sebelum expire
+        $expireDate->copy()->subDays(3),   // 3 hari sebelum expire
+        $expireDate->copy()->subDays(2),   // 2 hari sebelum expire
+        $expireDate->copy()->subDay(),     // 1 hari sebelum expire
+        $expireDate,                       // pada hari expire
+    ];
 
-        while ($currentDate->lte($expireDate)) {
-            $scheduleTimestamp = $currentDate->copy()->setTimezone('UTC')->timestamp;
-            $this->sendScheduledMessage($reminder->phone_number, $reminder->message, $scheduleTimestamp);
-
-            $currentDate->addYear();
+    foreach ($reminderDates as $date) {
+        if ($date->isFuture()) {
+            $message = $this->generateMessage($reminder, $date);
+            $this->sendScheduledMessage($reminder->phone_number, $message, $date->timestamp);
+            
+            Log::info('Reminder scheduled', [
+                'user' => $reminder->nama,
+                'phone' => $reminder->phone_number,
+                'date' => $date->format('Y-m-d'),
+                'message' => $message
+            ]);
         }
     }
+}
+
+    private function generateMessage(Reminder $reminder, Carbon $date)
+{
+    $expireDate = Carbon::parse($reminder->expire_date);
+    $diffInDays = $date->diffInDays($expireDate);
+    $diffInMonths = $date->diffInMonths($expireDate);
+
+    if ($diffInDays == 0) {
+        return "Hari ini adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+    } elseif ($diffInDays == 1) {
+        return "Besok adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+    } elseif ($diffInDays == 2) {
+        return "2 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+    } elseif ($diffInDays == 3) {
+        return "3 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+    } elseif ($diffInMonths == 3) {
+        return "3 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon persiapkan pembaruan data Anda.";
+    } elseif ($diffInMonths == 6) {
+        return "6 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon perhatikan untuk memperbarui data Anda tepat waktu.";
+    } elseif ($diffInDays == 365) {
+        return "1 tahun lagi adalah batas akhir masa berlaku data Anda. Mohon ingat untuk memperbarui data Anda tahun depan.";
+    } else {
+        return "Peringatan: Masa berlaku data Anda akan berakhir pada " . $expireDate->format('d F Y') . ". Harap perbarui data Anda sebelum tanggal tersebut.";
+    }
+}
 
     private function sendScheduledMessage($phone_number, $message, $scheduleTimestamp)
     {
-        // Format nomor telepon
         $formattedPhone = $this->formatPhoneNumber($phone_number);
 
         $curl = curl_init();
@@ -81,10 +118,10 @@ class DashboardController extends Controller
                 'target' => $formattedPhone,
                 'message' => $message,
                 'schedule' => $scheduleTimestamp,
-                'countryCode' => '62', //optional
+                'countryCode' => '62',
             ),
             CURLOPT_HTTPHEADER => array(
-                'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token Anda yang sebenarnya
+                'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token device anda
             ),
         ));
 
@@ -106,28 +143,23 @@ class DashboardController extends Controller
         } else {
             Log::info('Message scheduled successfully', [
                 'phone' => $formattedPhone,
-                'schedule' => $scheduleTimestamp,
+                'schedule' => date('Y-m-d H:i:s', $scheduleTimestamp),
                 'response' => $response
             ]);
         }
 
         return $response;
     }
+
     private function formatPhoneNumber($phone_number)
     {
-        // Hapus semua karakter non-digit
         $number = preg_replace('/[^0-9]/', '', $phone_number);
-
-        // Jika dimulai dengan '0', ganti dengan '62'
         if (substr($number, 0, 1) === '0') {
             $number = '62' . substr($number, 1);
         }
-
-        // Jika belum dimulai dengan '62', tambahkan di depan
         if (substr($number, 0, 2) !== '62') {
             $number = '62' . $number;
         }
-
         return $number;
     }
 
