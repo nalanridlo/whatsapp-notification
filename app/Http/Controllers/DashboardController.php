@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Log; // Add this line
 use App\Models\Reminder;
 use App\Models\Notification;
 use Carbon\Carbon; // Add this line
+
+use function Laravel\Prompts\search;
+
 class DashboardController extends Controller
 {
 
@@ -135,10 +138,16 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function users()
+    public function users(Request $request)
     {
-        $reminders = Reminder::all(); // Mengambil semua data dari model Reminder
-
+        $search = $request->search;
+        if ($search) {
+            $reminders = Reminder::where('nama', 'like', "%$search%")
+                ->orWhere('phone_number', 'like', "%$search%")
+                ->get();
+        } else {
+            $reminders = Reminder::all();
+        }
         return view('components.users', [
             'activePage' => 'users',
             'reminders' => $reminders, // Mengirim data reminders ke view

@@ -58,5 +58,5 @@ Route::post('/devices/{device}/reconnect', [DeviceController::class, 'reconnect'
 
 // Route::delete('/reminders/{id}', [ReminderController::class, 'delete'])->name('reminders.delete');
 Route::delete('/reminders/{reminder}', [ReminderController::class, 'delete'])->name('reminders.delete');
-Route::get('/reminders/search', [ReminderController::class, 'search'])->name('reminders.search');
+Route::get('/reminders/search', 'ReminderController@search')->name('reminders.search');
 

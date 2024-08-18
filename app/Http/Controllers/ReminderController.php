@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Log;
 class ReminderController extends Controller
 {
 
+
+
     public function dashboard()
     {
         $reminders = Reminder::all();
@@ -23,7 +25,7 @@ class ReminderController extends Controller
     {
         return view('reminders.create');
     }
-    
+
 
     public function store(Request $request)
     {
@@ -94,27 +96,20 @@ class ReminderController extends Controller
     public function search(Request $request)
     {
         Log::info('Search request received: ' . $request->get('search'));
-    
         try {
             $search = $request->get('search');
-    
-            // Build query with optional search filter
-            $query = Reminder::query()
-                ->when($search, function ($query, $search) {
-                    $query->where('nama', 'like', '%' . $search . '%')
-                          ->orWhere('phone_number', 'like', '%' . $search . '%');
-                })
-                ->orderBy('created_at', 'desc'); // Optional: Sort by created_at or another column
-    
-            $reminders = $query->get();
-    
+
+            $reminders = Reminder::where('nama', 'like', "%{$search}%")
+                ->orWhere('phone_number', 'like', "%{$search}%")
+                ->get();
+            return view('components.show', compact('reminders'));
             return response()->json($reminders);
         } catch (\Exception $e) {
             Log::error('Search error: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred while processing your request'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    
+
 
     public function index()
     {
