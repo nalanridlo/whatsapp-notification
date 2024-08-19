@@ -25,12 +25,14 @@ class DashboardController extends Controller
         ]);
 
         $expireDate = Carbon::parse($request->expire_date);
+        $reminderDate = $expireDate->copy()->subYear();
 
         $reminder = Reminder::create([
             'nama' => $request->nama,
             'phone_number' => $request->phone_number,
             'tanggalLahir' => $request->tanggalLahir,
             'expire_date' => $expireDate,
+            'reminder_date' => $reminderDate,
             'message' => $request->input('message', 'Peringatan: Anda akan memasuki tahun keempat. Harap perbarui data Anda.'),
         ]);
 
@@ -47,108 +49,113 @@ class DashboardController extends Controller
     }
 
     private function scheduleReminders(Reminder $reminder)
-{
-    $expireDate = Carbon::parse($reminder->expire_date);
-    $reminderDates = [
-        $expireDate->copy()->subYear(),    // 1 tahun sebelum expire
-        $expireDate->copy()->subMonths(6), // 6 bulan sebelum expire
-        $expireDate->copy()->subMonths(3), // 3 bulan sebelum expire
-        $expireDate->copy()->subDays(3),   // 3 hari sebelum expire
-        $expireDate->copy()->subDays(2),   // 2 hari sebelum expire
-        $expireDate->copy()->subDay(),     // 1 hari sebelum expire
-        $expireDate,                       // pada hari expire
-    ];
+    {
+        $expireDate = Carbon::parse($reminder->expire_date);
+        $reminderDates = [
+            $reminder->reminder_date,          // 1 tahun sebelum expire (sudah diset di storeUsers)
+            $expireDate->copy()->subMonths(6), // 6 bulan sebelum expire
+            $expireDate->copy()->subMonths(3), // 3 bulan sebelum expire
+            $expireDate->copy()->subDays(3),   // 3 hari sebelum expire
+            $expireDate->copy()->subDays(2),   // 2 hari sebelum expire
+            $expireDate->copy()->subDay(),     // 1 hari sebelum expire
+            $expireDate,                       // pada hari expire
+        ];
 
-    foreach ($reminderDates as $date) {
-        if ($date->isFuture()) {
-            $message = $this->generateMessage($reminder, $date);
-            $this->sendScheduledMessage($reminder->phone_number, $message, $date->timestamp);
-            
-            Log::info('Reminder scheduled', [
-                'user' => $reminder->nama,
-                'phone' => $reminder->phone_number,
-                'date' => $date->format('Y-m-d'),
-                'message' => $message
-            ]);
+        foreach ($reminderDates as $date) {
+            if ($date->isFuture()) {
+                $message = $this->generateMessage($reminder, $date);
+                $response = $this->sendScheduledMessage($reminder->phone_number, $message, $date->timestamp);
+
+                Log::info('Reminder scheduled', [
+                    'user' => $reminder->nama,
+                    'phone' => $reminder->phone_number,
+                    'date' => $date->format('Y-m-d H:i:s'),
+                    'message' => $message,
+                    'response' => $response
+                ]);
+            }
         }
     }
-}
 
     private function generateMessage(Reminder $reminder, Carbon $date)
-{
-    $expireDate = Carbon::parse($reminder->expire_date);
-    $diffInDays = $date->diffInDays($expireDate);
-    $diffInMonths = $date->diffInMonths($expireDate);
+    {
+        $expireDate = Carbon::parse($reminder->expire_date);
+        $diffInDays = $date->diffInDays($expireDate);
+        $diffInMonths = $date->diffInMonths($expireDate);
 
-    if ($diffInDays == 0) {
-        return "Hari ini adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
-    } elseif ($diffInDays == 1) {
-        return "Besok adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
-    } elseif ($diffInDays == 2) {
-        return "2 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
-    } elseif ($diffInDays == 3) {
-        return "3 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
-    } elseif ($diffInMonths == 3) {
-        return "3 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon persiapkan pembaruan data Anda.";
-    } elseif ($diffInMonths == 6) {
-        return "6 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon perhatikan untuk memperbarui data Anda tepat waktu.";
-    } elseif ($diffInDays == 365) {
-        return "1 tahun lagi adalah batas akhir masa berlaku data Anda. Mohon ingat untuk memperbarui data Anda tahun depan.";
-    } else {
-        return "Peringatan: Masa berlaku data Anda akan berakhir pada " . $expireDate->format('d F Y') . ". Harap perbarui data Anda sebelum tanggal tersebut.";
+        if ($diffInDays == 0) {
+            return "Hari ini adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+        } elseif ($diffInDays == 1) {
+            return "Besok adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+        } elseif ($diffInDays == 2) {
+            return "2 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+        } elseif ($diffInDays == 3) {
+            return "3 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+        } elseif ($diffInMonths == 3) {
+            return "3 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon persiapkan pembaruan data Anda.";
+        } elseif ($diffInMonths == 6) {
+            return "6 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon perhatikan untuk memperbarui data Anda tepat waktu.";
+        } elseif ($diffInDays == 365) {
+            return "1 tahun lagi adalah batas akhir masa berlaku data Anda. Mohon ingat untuk memperbarui data Anda tahun depan.";
+        } else {
+            return "Peringatan: Masa berlaku data Anda akan berakhir pada " . $expireDate->format('d F Y') . ". Harap perbarui data Anda sebelum tanggal tersebut.";
+        }
     }
-}
 
     private function sendScheduledMessage($phone_number, $message, $scheduleTimestamp)
     {
         $formattedPhone = $this->formatPhoneNumber($phone_number);
 
-        $curl = curl_init();
+    $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.fonnte.com/send',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array(
-                'target' => $formattedPhone,
-                'message' => $message,
-                'schedule' => $scheduleTimestamp,
-                'countryCode' => '62',
-            ),
-            CURLOPT_HTTPHEADER => array(
-                'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token device anda
-            ),
-        ));
+    $postFields = [
+        'target' => $formattedPhone,
+        'message' => $message,
+        'schedule' => $scheduleTimestamp,
+        'countryCode' => '62',
+    ];
 
-        $response = curl_exec($curl);
-        $error = null;
+    curl_setopt_array($curl, [
+        CURLOPT_URL => 'https://api.fonnte.com/send',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token Anda yang sebenarnya
+        ],
+    ]);
 
-        if (curl_errno($curl)) {
-            $error = curl_error($curl);
-        }
+    $response = curl_exec($curl);
+    $error = null;
 
-        curl_close($curl);
+    if (curl_errno($curl)) {
+        $error = curl_error($curl);
+    }
 
-        if ($error) {
-            Log::error('Failed to schedule message', [
-                'phone' => $formattedPhone,
-                'schedule' => $scheduleTimestamp,
-                'error' => $error
-            ]);
-        } else {
-            Log::info('Message scheduled successfully', [
-                'phone' => $formattedPhone,
-                'schedule' => date('Y-m-d H:i:s', $scheduleTimestamp),
-                'response' => $response
-            ]);
-        }
+    curl_close($curl);
 
-        return $response;
+    if ($error) {
+        Log::error('Failed to schedule message', [
+            'phone' => $formattedPhone,
+            'schedule' => date('Y-m-d H:i:s', $scheduleTimestamp),
+            'error' => $error,
+            'postFields' => $postFields
+        ]);
+    } else {
+        Log::info('Message scheduled successfully', [
+            'phone' => $formattedPhone,
+            'schedule' => date('Y-m-d H:i:s', $scheduleTimestamp),
+            'response' => $response,
+            'postFields' => $postFields
+        ]);
+    }
+
+    return $response;
     }
 
     private function formatPhoneNumber($phone_number)

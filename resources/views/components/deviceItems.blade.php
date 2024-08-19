@@ -30,14 +30,6 @@
             </button>
         </form>
         @else
-        <!-- <form action="{{ route('devices.reconnect', ['device' => $device['device']]) }}" method="POST">
-            @csrf
-            <input type="hidden" name="token" value="{{ $token }}">
-            <input type="hidden" name="whatsapp" value="{{ $device['device'] }}">
-            <button type="submit" class="inline-flex items-center px-4 py-2 bg-[#7DDF64] text-white text-xs font-semibold rounded-lg hover:bg-blue-700">
-                Connect
-            </button>
-        </form> -->
         <button type="button" id="connection-btn" class="reconnect-btn inline-flex items-center px-4 py-2 bg-[#7DDF64] text-white text-xs font-semibold rounded-lg hover:bg-blue-700"
             data-device="{{ $device['device'] }}"
             data-token="{{ $token }}">
