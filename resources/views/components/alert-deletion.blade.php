@@ -10,15 +10,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const alertDeletion = document.getElementById('alert-deletion');
-        const submitBtn = document.getElementById('submit-btn');
-        const closeBtn = document.getElementById('popup-close-btn');
-
-        closeBtn.addEventListener('click', function() {
-            alertConfirmation.classList.add('hidden');
-        });
-    });
-</script>

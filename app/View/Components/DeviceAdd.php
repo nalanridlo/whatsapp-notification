@@ -21,6 +21,6 @@ class DeviceAdd extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.deviceAdd');
+        return view('components.device-add');
     }
 }

@@ -3,43 +3,33 @@
 @section('title', 'dashboard')
 
 @section('content')
-<div class="grid grid-cols-2 gap-[20px]">
+
+<div class="grid grid-cols-2 gap-[20px] h-[80vh]">
     <!-- Left Column: Device Connected and Users List -->
-    <div class="space-y-[20px]">
+    <div>
         <!-- Card 1: Device Connected List -->
-        @include('devices.index', ['devices' => $devices])
+        @include('pageDashboard.device-index', ['devices' => $devices])
 
         <!-- Card 3: Users List -->
-        <div class="bg-white rounded-[20px] p-[20px] max-h-[300px] overflow-y-auto">
+        <div class="mt-[20px] bg-white rounded-[20px] p-[20px] max-h-[300px] overflow-y-auto">
             <div class="overflow-x-auto">
-            @include('reminders.index', ['reminders' => $reminders])    
+            @include('pageDashboard.users-index', ['reminders' => $reminders])    
             </div>
         </div>
     </div>
     <!-- Right Column: Notification List -->
-    <div class="space-y-[20px]">
-        <div class="bg-white rounded-[20px] p-[20px] flex flex-col  overflow-y-auto ">
+    <div class="space-y-[20px] flex flex-col overflow-y-auto h-full">
+        <div class="bg-white rounded-[20px] p-[20px] flex flex-col overflow-y-auto max-h-full">
             <div class="flex items-center justify-between mb-[12px]">
                 <div class="flex items-center space-x-4">
                     <img src="../assets/img/ic_notification.svg" alt="Notification Icon">
                     <h2 class="text-xl font-bold">Notification</h2>
                 </div>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-2 overflow-y-auto">
                 <!-- Notification items -->
-                <!-- Example of a single item -->
                 @forelse($notifications as $notification)
-                <div class="flex justify-between items-center border-[#E3E3E3] border-[1px] rounded-[10px] p-[10px]">
-                    <div>
-                        <h2 class="font-semibold text-[12px]">Insert Data</h2>
-                        <h2 class="font-light text-[10px]">User data uploaded successfully</h2>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-black text-sm">Status: </span>
-                        <span class="text-green-600 text-sm">Success</span>
-                        <span class="ml-2 h-3 w-3 bg-green-600 rounded-full"></span>
-                    </div>
-                </div>
+                    @include('pageDashboard.notification-index', ['notification' => $notification])
                 @empty
                 <p>No notifications found.</p>
                  @endforelse

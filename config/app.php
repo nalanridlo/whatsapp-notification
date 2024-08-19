@@ -163,11 +163,14 @@ return [
         /*
          * Application Service Providers...
          */
+        Laravel\Ui\UiServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // Notification Library: Laravel-notify
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class
     ])->toArray(),
 
     /*

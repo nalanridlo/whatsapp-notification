@@ -6,15 +6,15 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class DeviceActionConnection extends Component
+class DeviceActionDelete extends Component
 {
     /**
      * Create a new component instance.
      */
 
-     public $device ;
-     public $token ;
-    public function __construct($device , $token )
+    public $device;
+    public $token;
+    public function __construct($device, $token)
     {
         //
         $this->device = $device;
@@ -27,7 +27,7 @@ class DeviceActionConnection extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.device-action-connection', [
+        return view('components.device-action-delete', [
             'device' => $this->device,
             'token' => $this->token,
         ]);

@@ -5,7 +5,7 @@
             <img src="../assets/img/ic_devices_card.svg" alt="Users Icon" class="w-6 h-6">
             <h2 class="text-xl font-bold">Add New Device</h2>
         </div>
-        <form method="POST" action="{{ route('device.storeDevice') }}">
+        <form method="POST" action="{{ route('devices.storeDevice') }}">
             @csrf
             <!-- Form Name -->
             <div class="mb-4">

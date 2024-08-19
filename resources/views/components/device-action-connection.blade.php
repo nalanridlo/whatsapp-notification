@@ -1,4 +1,4 @@
-<div id="connect-device-popup" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+<div id="connect-device-popup" class="fixed inset-0 bg-black bg-opacity-20 z-50 hidden flex items-center justify-center">
     <div class="bg-white p-6 rounded-[20px] shadow-lg w-full max-w-md p-[20px]">
         <!-- Title -->
         <div class="flex items-center space-x-4 mb-[20px]">

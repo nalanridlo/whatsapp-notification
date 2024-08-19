@@ -28,7 +28,7 @@ class DeviceItems extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.deviceItems', [
+        return view('components.device-items', [
             'device' => $this->device,
             'token' => $this->token,
         ]);

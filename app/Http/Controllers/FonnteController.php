@@ -8,9 +8,6 @@ use App\Services\FonnteService;
 
 class FonnteController extends Controller
 {
-
-    
-
     public function sendMessage(Request $request)
     {
         $target = $request->input('target');
@@ -36,12 +33,12 @@ class FonnteController extends Controller
     {
         $response = FonnteService::getDevices();
 
-    // Cek apakah responsnya sukses
-    if (isset($response['status']) && $response['status']) {
-        $devices = $response['data']; // Ambil data devices dari response
-        return view('devices.index', compact('devices'));
-    } else {
-        return view('devices.index', ['error' => 'Failed to retrieve devices.']);
-    }
+        // Cek apakah responsnya sukses
+        if (isset($response['status']) && $response['status']) {
+            $devices = $response['data']; // Ambil data devices dari response
+            return view('devices.index', compact('devices'));
+        } else {
+            return view('devices.index', ['error' => 'Failed to retrieve devices.']);
+        }
     }
 }

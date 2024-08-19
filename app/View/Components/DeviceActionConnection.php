@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\View\Component;
 use Illuminate\Contracts\View\View;
 
-class DeviceActionConnect extends Component
+class DeviceActionConnection extends Component
 {
     /**
      * Create a new component instance.

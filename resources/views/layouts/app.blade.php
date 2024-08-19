@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard Page </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,11 +20,14 @@
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @notifyCss
 </head>
 
 <body>
     <x-header />
     <div class="flex h-screen">
+        <x-notify::notify />
+        @notifyJs
         <!-- left navigation -->
         <x-sidebar :activePage="$activePage ?? 'dashboard'" />
         <!-- main content -->
@@ -32,31 +36,7 @@
         </main>
     </div>
     <x-alert-logout />
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const openButton = document.getElementById('openForm');
-            const closeButton = document.getElementById('closeForm');
-            const formModal = document.getElementById('formModal');
-
-            // Open the form
-            openButton.addEventListener('click', function() {
-                formModal.classList.remove('hidden');
-            });
-
-            // Close the form
-            closeButton.addEventListener('click', function() {
-                formModal.classList.add('hidden');
-            });
-
-            // Close the form if clicked outside of it
-            window.addEventListener('click', function(event) {
-                if (event.target === formModal) {
-                    formModal.classList.add('hidden');
-                }
-            });
-        });
-    </script>
-
+    <script src="../assets/js/sidebar.js"></script>
 </body>
 
 </html>

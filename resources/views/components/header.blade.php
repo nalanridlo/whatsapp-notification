@@ -1,7 +1,7 @@
 <header class="bg-[#ECF0F5] flex flex-col items-center w-full box-sizing-border">
     <nav class="bg-[#0157FE] relative flex flex-row justify-between w-full box-sizing-border p-[20px]">
         <div class="flex-1 flex justify-center">
-            <a href="#" class="flex items-center">
+            <a href="{{ route('dashboard') }}" class="flex items-center">
                 <img class="w-[216px] h-[64px]" src="{{ asset('assets/img/AffidavitLogo.svg') }}" alt="Logo">
             </a>
         </div>
