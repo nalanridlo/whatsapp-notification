@@ -30,17 +30,16 @@
             </button>
         </form>
         @else
-        <button type="button" id="connection-btn" class="reconnect-btn inline-flex items-center px-4 py-2 bg-[#7DDF64] text-white text-xs font-semibold rounded-lg hover:bg-blue-700"
+        <button type="button"  class="reconnect-btn inline-flex items-center px-4 py-2 bg-[#7DDF64] text-white text-xs font-semibold rounded-lg hover:bg-blue-700"
             data-device="{{ $device['device'] }}"
             data-token="{{ $token }}">
             Reconnect
         </button>
         @endif
-        <button type="button" id="" class="delete-btn px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-gray-800"
+        <button type="button"  class="delete-btn px-4 py-2 bg-[#000000] text-white text-xs font-semibold rounded-lg hover:bg-gray-800"
             data-device="{{ $device['device'] }}"
             data-token="{{ $token }}">
             Delete
-        </button>
         </button>
     </div>
 </div>
@@ -49,7 +48,7 @@
 
 <x-reconnect :device="$device" :token="$token" />
 
-<script>
+<!-- <script>
     $(document).ready(function() {
         // Ketika tombol delete diklik
         $('.delete-btn').click(function() {
@@ -116,7 +115,7 @@
                 });
             });
         });
-        $('#connection-btn').click(function() {
+        $('.connection-btn').click(function() {
             var device = $(this).data('device'); // Nomor WhatsApp
             var token = $(this).data('token');
 
@@ -165,4 +164,4 @@
     $('#device-connection-selesai').click(function() {
         location.reload();
     });
-</script>
+</script> -->

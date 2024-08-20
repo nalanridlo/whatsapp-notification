@@ -28,76 +28,8 @@
 
 <x-deviceAdd />
 
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const addUserBtn = document.getElementById('add-user-btn');
-        const addUserPopup = document.getElementById('add-device-popup');
-        const closePopupBtn = document.getElementById('popup-close');
-        const connectionBtn = document.getElementById('connection-btn');
-
-        //delete button
-        const deleteBtn = document.querySelectorAll('.delete-btn');
-        const connectionPopup = document.getElementById('connect-device-popup');
-        const deletePopup = document.getElementById('delete-device-popup');
-
-
-        deleteBtn.forEach(function(deleteDeviceBtn){
-            deleteDeviceBtn.addEventListener('click', function(event) {
-                event.preventDefault();
-                deletePopup.classList.remove('hidden');
-            });
-        });
-
-        // Open the popup when the button is clicked
-        addUserBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            addUserPopup.classList.remove('hidden');
-        });
-
-        connectionBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            connectionPopup.classList.remove('hidden');
-        });
-
-        deleteBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            deletePopup.classList.remove('hidden');
-        });
-
-        connectionPopup.addEventListener('click', function(event) {
-            if (event.target === connectionPopup) {
-                connectionPopup.classList.add('hidden');
-            }
-        });
-
-        deletePopup.addEventListener('click', function(event) {
-            if (event.target === deletePopup) {
-                deletePopup.classList.add('hidden');
-            }
-        });
-
-        // Close the popup when the close button is clicked
-        closePopupBtn.addEventListener('click', function() {
-            addUserPopup.classList.add('hidden');
-        });
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                addUserPopup.classList.add('hidden');
-            }
-        });
-
-        // Close the popup when clicking outside the main card
-        addUserPopup.addEventListener('click', function(event) {
-            if (event.target === addUserPopup) {
-                addUserPopup.classList.add('hidden');
-            }
-        });
-
-    });
-
-    
-</script>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/device.js') }}"></script>
+@endpush
