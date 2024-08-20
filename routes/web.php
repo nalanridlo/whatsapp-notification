@@ -40,6 +40,7 @@ Route::get('/reminders/search', 'ReminderController@search')->name('reminders.se
 // Route::get('/reminders/{id}/edit', [ReminderController::class, 'edit'])->name('reminders.edit');
 // Route::post('/reminders/{reminder}', [ReminderController::class, 'update'])->name('reminders.update');
 //device
+Route::post('/devices/store', [DeviceController::class, 'store'])->name('devices.store');
 Route::post('/devices/store', [DeviceController::class, 'storeDevice'])->name('devices.storeDevice');
 Route::post('/devices/{device}/request-otp', [DeviceController::class, 'requestOtp'])->name('devices.requestOtp');
 Route::post('/devices/{device}/delete', [DeviceController::class, 'delete'])->name('devices.delete');

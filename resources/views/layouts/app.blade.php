@@ -37,6 +37,7 @@
     </div>
     <x-alert-logout />
     <script src="../assets/js/sidebar.js"></script>
+    @stack('scripts')
 </body>
 
 </html>

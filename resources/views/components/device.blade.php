@@ -27,3 +27,7 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('assets/js/device.js') }}"></script>
+@endpush
