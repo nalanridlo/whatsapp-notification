@@ -28,7 +28,7 @@ class DeviceController extends Controller
         ]);
 
         $response = Http::withHeaders([
-            'Authorization' => 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT', // Ganti TOKEN dengan token Anda
+            'Authorization' => 'Bearer ' . env('FONNTE_API_TOKEN'), // Ganti TOKEN dengan token Anda
         ])->post('https://api.fonnte.com/add-device', [
             'name' => $request->name,
             'device' => $request->device,
@@ -56,7 +56,7 @@ class DeviceController extends Controller
         try {
             // Make the HTTP POST request
             $response = Http::withHeaders([
-                'Authorization' => 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT', // Replace with your token
+                'Authorization' => env('FONNTE_API_TOKEN'), // Replace with your token
             ])->post('https://api.fonnte.com/add-device', [
                 'name' => $request->name,
                 'device' => $request->device,
@@ -195,7 +195,7 @@ class DeviceController extends Controller
     public function index()
     {
         // Ganti 'YOUR_TOKEN' dengan token akun yang sebenarnya
-        $token = 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT';
+        $token = env('FONNTE_API_TOKEN');
 
         // Memanggil API untuk mendapatkan data devices
         $response = Http::withHeaders([

@@ -19,7 +19,7 @@ class DashboardController extends Controller
     {
         // Ambil data devices
         if (Auth::check()) {
-            $token = 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT';
+            $token = env('FONNTE_API_TOKEN');
             $response = Http::withHeaders([
                 'Authorization' => $token,
             ])->post('https://api.fonnte.com/get-devices');
@@ -46,7 +46,7 @@ class DashboardController extends Controller
     public function getDevice()
     {
         // get data devices
-        $token = 'fDN@8#NQbnj51e7Dz_cDBrLxVry4NUqyEq#u_mNetJwh!9AT';
+        $token = env('FONNTE_API_TOKEN');
         $response = Http::withHeaders([
             'Authorization' => $token,
         ])->post('https://api.fonnte.com/get-devices');

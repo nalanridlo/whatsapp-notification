@@ -127,6 +127,7 @@ class ReminderController extends Controller
     private function sendScheduledMessage($phone_number, $message, $scheduleTimestamp)
     {
         $formattedPhone = $this->formatPhoneNumber($phone_number);
+        $token = env('FONNTE_API_DEVICE_TOKEN');
 
         $curl = curl_init();
 
@@ -148,7 +149,7 @@ class ReminderController extends Controller
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => $postFields,
             CURLOPT_HTTPHEADER => [
-                'Authorization: Br!aX1vJRVCe8DAKmAs8' // Ganti dengan token Anda yang sebenarnya
+                'Authorization:'. $token // Ganti dengan token Anda yang sebenarnya
             ],
         ]);
 
