@@ -1,6 +1,6 @@
 @props(['devices'])
-<div class="bg-white rounded-[20px] p-[20px] border-[3px] border-[#0157FE] max-h-[200px] overflow-y-auto">
-    <div class="flex items-center justify-between mb-[12px]">
+<div class="bg-white rounded-[20px] p-[20px] border-[3px] border-[#0157FE] max-h-[200px] flex flex-col">
+    <div class="flex items-center justify-between mb-[12px] sticky top-0 bg-white z-10">
         <div class="flex items-center space-x-2">
             <img src="../assets/img/ic_devices_card.svg" alt="Devices Icon" class="w-6 h-6">
             <h2 class="text-lg font-bold">All Devices</h2>
@@ -11,7 +11,7 @@
     </div>
 
     <!-- Device items -->
-    <div class="space-y-2">
+    <div class="space-y-2 overflow-y-auto flex-1">
         @if(isset($devices) && count($devices) > 0)
         @foreach($devices as $device)
         <div class="flex justify-between items-center">

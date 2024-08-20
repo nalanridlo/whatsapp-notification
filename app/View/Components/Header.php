@@ -13,7 +13,7 @@ class Header extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($userName = 'Admin', $userEmail = 'Admin@example.com')
+    public function __construct($userName = 'admin', $userEmail = 'admin@example.com')
     {
         $this->userName = $userName;
         $this->userEmail = $userEmail;

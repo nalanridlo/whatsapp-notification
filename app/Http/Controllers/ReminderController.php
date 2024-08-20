@@ -33,28 +33,41 @@ class ReminderController extends Controller
             'expire_date' => 'required|date',
         ]);
 
-        $expireDate = Carbon::parse($request->expire_date);
-        $reminderDate = $expireDate->copy()->subYear();
+        $notificationController =  app(NotificationController::class);
 
-        $reminder = Reminder::create([
-            'nama' => $request->nama,
-            'phone_number' => $request->phone_number,
-            'tanggalLahir' => $request->tanggalLahir,
-            'expire_date' => $expireDate,
-            'reminder_date' => $reminderDate,
-            'message' => $request->input('message', 'Peringatan: Anda akan memasuki tahun keempat. Harap perbarui data Anda.'),
-        ]);
+        try {
+            $expireDate = Carbon::parse($request->expire_date);
+            $reminderDate = $expireDate->copy()->subYear();
 
-        Notification::create([
-            'title' => 'Insert Data',
-            'message' => 'User data inserted successfully!',
-            'status' => 'Success'
-        ]);
+            $reminder = Reminder::create([
+                'nama' => $request->nama,
+                'phone_number' => $request->phone_number,
+                'tanggalLahir' => $request->tanggalLahir,
+                'expire_date' => $expireDate,
+                'reminder_date' => $reminderDate,
+                'message' => $request->input('message', 'Peringatan: Anda akan memasuki tahun keempat. Harap perbarui data Anda.'),
+            ]);
 
-        // Jadwalkan pesan untuk empat tahun ke depan
-        $this->scheduleReminders($reminder);
+            // Jadwalkan pesan untuk empat tahun ke depan
+            $this->scheduleReminders($reminder);
 
-        return redirect()->route('users')->with('success', 'Reminder created successfully!');
+            // Notifikasi
+            $notificationController->store(new Request([
+                'title' => 'User Added Successfully',
+                'message' => 'User was added successfully.',
+                'status' => 'Success'
+            ]));
+
+            return redirect()->route('users')->with('success', 'Reminder created successfully!');
+        } catch (\Exception $e) {
+            $notificationController->store(new Request([
+                'title' => 'Error',
+                'message' => 'An error occurred while adding users',
+                'status' => 'Failed'
+            ]));
+
+            return redirect()->route('users')->with('failed', 'Reminder not created');
+        }
     }
 
     private function scheduleReminders(Reminder $reminder)
@@ -181,61 +194,46 @@ class ReminderController extends Controller
 
     public function delete(Reminder $reminder)
     {
+        $notificationController =  app(NotificationController::class);
         try {
             $reminder->delete();
+            $notificationController->store(new Request([
+                'title' => 'User Delete',
+                'message' => 'User was deleted successfully.',
+                'status' => 'Success'
+            ]));
             return response()->json(['success' => true, 'message' => 'Reminder deleted successfully']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to delete reminder'], 500);
         }
     }
 
-    public function edit($id)
-    {
-        $reminder = Reminder::find($id);
-
-        if ($reminder) {
-            return response()->json(['success' => true, 'data' => $reminder]);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Data not found'], 404);
-        }
-    }
-
-    public function update(Request $request, Reminder $reminder)
-    {
-        // Validate the request data
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'tanggalLahir' => 'required|date',
-            'reminder_date' => 'required|date',
-            'expire_date' => 'required|date',
-        ]);
-
-        // Update the reminder data
-        $reminder->name = $request->input('name');
-        $reminder->phone_number = $request->input('phone_number');
-        $reminder->tanggalLahir = $request->input('tanggalLahir');
-        $reminder->reminder_date = $request->input('reminder_date');
-        $reminder->expire_date = $request->input('expire_date');
-        // update other fields as necessary
-
-        $reminder->save();
-
-        return response()->json(['success' => true, 'message' => 'Data updated successfully']);
-    }
-
     public function search(Request $request)
     {
         Log::info('Search request received: ' . $request->get('search'));
+
+        $notificationController =  app(NotificationController::class);
+
         try {
             $search = $request->get('search');
 
             $reminders = Reminder::where('nama', 'like', "%{$search}%")
                 ->orWhere('phone_number', 'like', "%{$search}%")
                 ->get();
-            return view('components.show', compact('reminders'));
-            return response()->json($reminders);
+
+
+            if ($request->successful()) {
+                $notificationController->store(new Request([
+                    'title' => 'Search Notification',
+                    'message' => 'Showing result search',
+                    'status' => 'Success'
+                ]));
+
+                return view('components.show', compact('reminders'));
+                return response()->json($reminders);
+            }
         } catch (\Exception $e) {
+
             Log::error('Search error: ' . $e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }

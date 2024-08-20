@@ -25,13 +25,13 @@
 
 <body>
     <x-header />
+    <x-notify::notify />
+    @notifyJs
     <div class="flex h-screen">
-        <x-notify::notify />
-        @notifyJs
         <!-- left navigation -->
         <x-sidebar :activePage="$activePage ?? 'dashboard'" />
         <!-- main content -->
-        <main id="main-content" class="flex-1 bg-[#ECF0F5] p-[20px]">
+        <main id="main-content" class="flex-1 bg-[#ECF0F5] p-[20px] overflow-y-auto">
             @yield('content')
         </main>
     </div>

@@ -5,16 +5,6 @@
         <div class="flex items-center space-x-2">
             <!-- Button Container (initially hidden) -->
             <div class="absolute ml-[4px] left-0 top-1/2 transform -translate-y-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out z-10">
-                <!-- More Options Button -->
-                <button id="users-more-btn" data-id="{{ $reminder->id }}" class="rounded-full p-2 bg-gray-100 hover:bg-gray-200">
-                    <svg fill="#000000" class="w-[24px] h-[24px]" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6,5H16a2,2,0,0,1,2,2v7" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                        <path d="M18,19H8a2,2,0,0,1-2-2V10" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                        <polyline points="15 11 18 14 21 11" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
-                        <polyline points="9 13 6 10 3 13" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
-                    </svg>
-                </button>
-
                 <!-- Delete Button -->
                 <button id="" data-id="{{ $reminder->id }}" class="users-items rounded-full p-2 bg-[#D00000] hover:bg-[#b00000]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -25,7 +15,7 @@
             </div>
             
             <!-- Data Text -->
-            <span class="ml-[50px] group-hover:ml-24 transition-all duration-200 ease-in-out">{{ $reminder->nama }}</span>
+            <span class="ml-[50px] group-hover:ml-10 transition-all duration-200 ease-in-out">{{ $reminder->nama }}</span>
         </div>
     </td>
     <td class="p-[10px] w-[25%] border-r border-[#E0E0E0]">{{ $reminder->tanggalLahir }}</td>

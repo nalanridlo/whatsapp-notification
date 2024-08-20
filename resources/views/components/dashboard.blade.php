@@ -4,21 +4,21 @@
 
 @section('content')
 
-<div class="grid grid-cols-2 gap-[20px] h-[80vh]">
+<div class="flex gap-[20px] h-full">
     <!-- Left Column: Device Connected and Users List -->
-    <div>
+    <div class="flex-1 flex flex-col gap-[20px]">
         <!-- Card 1: Device Connected List -->
         @include('pageDashboard.device-index', ['devices' => $devices])
 
         <!-- Card 3: Users List -->
-        <div class="mt-[20px] bg-white rounded-[20px] p-[20px] max-h-[300px] overflow-y-auto">
-            <div class="overflow-x-auto">
+        <div class="bg-white rounded-[20px] flex-1 p-[20px] max-h-full overflow-y-auto">
+            <div class="overflow-x-auto h-full border-[1px] border-[#E0E0E0]">
             @include('pageDashboard.users-index', ['reminders' => $reminders])    
             </div>
         </div>
     </div>
     <!-- Right Column: Notification List -->
-    <div class="space-y-[20px] flex flex-col overflow-y-auto h-full">
+    <div class="flex-1 flex flex-col">
         <div class="bg-white rounded-[20px] p-[20px] flex flex-col overflow-y-auto max-h-full">
             <div class="flex items-center justify-between mb-[12px]">
                 <div class="flex items-center space-x-4">

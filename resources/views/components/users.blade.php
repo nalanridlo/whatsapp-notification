@@ -5,7 +5,7 @@
 @section('content')
 <div class="grid gap-[20px]">
     <div>
-        <div class="bg-white rounded-[20px] p-[20px] overflow-y-auto">
+        <div class="bg-white rounded-[20px] p-[20px]">
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-[#FFFFFF] rounded-[20px] border border-[#E0E0E0]">
                     <thead class="bg-[#F5F5F5] rounded-t-[20px]">
@@ -20,7 +20,7 @@
 
                                     <!-- Search Form -->
                                     <div class="flex-1 max-w-sm">
-                                        <form id="search-form"  class="relative">
+                                        <form id="search-form" class="relative">
                                             <input type="search" name="search" id="search-input" placeholder="Search..." class="w-full p-2 pl-10 border border-gray-300 rounded-full">
                                             <img class="absolute top-1/2 left-3 transform -translate-y-1/2 w-5 h-5 text-gray-500" src="../assets/img/ic_search.svg" />
                                         </form>
@@ -43,9 +43,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($reminders as $reminder)
+                        @forelse($reminders as $reminder)
                         <x-users-items :reminder="$reminder" />
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="4" class="p-4 text-center">
+                                No data found.
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -106,7 +112,22 @@
                         success: function(response) {
                             if (response.success) {
                                 $item.remove();
-
+                                $.ajax({
+                                    url: "{{ route('notifications.store') }}",
+                                    type: 'POST',
+                                    data: {
+                                        "_token": "{{ csrf_token() }}",
+                                        title: 'User Delete',
+                                        message: 'User was deleted successfully.',
+                                        status: 'Success',
+                                    },
+                                    success: function(response) {
+                                        if (response.success) {
+                                            // Handle successful response
+                                            location.reload();
+                                        }
+                                    }
+                                });
                             } else {
                                 alert('Failed to delete reminder');
                             }
