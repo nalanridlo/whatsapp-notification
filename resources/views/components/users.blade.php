@@ -11,11 +11,11 @@
                     <thead class="bg-[#F5F5F5] rounded-t-[20px]">
                         <tr class="border-b border-[#E0E0E0]">
                             <th class="p-[10px] text-left text-sm font-semibold" colspan="4">
-                                <div class="flex items-center justify-between p-4">
+                                <div class="flex items-center justify-between">
                                     <!-- Title and Icon -->
                                     <div class="flex items-center space-x-4">
                                         <img src="../assets/img/ic_users_card.svg" alt="Users Icon" class="w-6 h-6">
-                                        <h2 class="text-xl font-bold">Users List</h2>
+                                        <h2 class="text-xl font-bold">Data ABG</h2>
                                     </div>
 
                                     <!-- Search Form -->

@@ -104,24 +104,31 @@ class ReminderController extends Controller
         $expireDate = Carbon::parse($reminder->expire_date);
         $diffInDays = $date->diffInDays($expireDate);
         $diffInMonths = $date->diffInMonths($expireDate);
-
+    
+        $header = "KANTOR IMIGRASI KELAS II NON TPI KEDIRI\n\n";
+        $greeting = "Yth. {$reminder->nama}\n\n";
+        $footer = "\nTerima Kasih";
+    
+        $message = "";
         if ($diffInDays == 0) {
-            return "Hari ini adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+            $message = "Kami informasikan, hari ini adalah batas akhir masa affidavit. Harap segera melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } elseif ($diffInDays == 1) {
-            return "Besok adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+            $message = "Kami informasikan, besok adalah batas akhir masa affidavit. Harap segera melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } elseif ($diffInDays == 2) {
-            return "2 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+            $message = "Kami informasikan, 2 hari lagi adalah batas akhir masa affidavit. Harap segera melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } elseif ($diffInDays == 3) {
-            return "3 hari lagi adalah batas akhir masa berlaku data Anda. Harap segera perbarui data Anda.";
+            $message = "Kami informasikan, 3 hari lagi adalah batas akhir masa affidavit. Harap segera melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } elseif ($diffInMonths == 3) {
-            return "3 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon persiapkan pembaruan data Anda.";
+            $message = "Kami informasikan, 3 bulan lagi masa affidavit berakhir. Mohon persiapkan untuk melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } elseif ($diffInMonths == 6) {
-            return "6 bulan lagi adalah batas akhir masa berlaku data Anda. Mohon perhatikan untuk memperbarui data Anda tepat waktu.";
+            $message = "Kami informasikan, 6 bulan lagi masa affidavit berakhir. Mohon perhatikan untuk melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua tepat waktu.";
         } elseif ($diffInDays == 365) {
-            return "1 tahun lagi adalah batas akhir masa berlaku data Anda. Mohon ingat untuk memperbarui data Anda tahun depan.";
+            $message = "Kami informasikan, 1 tahun lagi masa affidavit berakhir. Diharap segera melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua.";
         } else {
-            return "Peringatan: Masa berlaku data Anda akan berakhir pada " . $expireDate->format('d F Y') . ". Harap perbarui data Anda sebelum tanggal tersebut.";
+            $message = "Kami informasikan, masa berlaku affidavit Anda akan berakhir pada " . $expireDate->format('d F Y') . ". Harap melaporkan kewarganegaraan kepada kantor imigrasi terdekat dan didampingi oleh orang tua sebelum tanggal tersebut.";
         }
+    
+        return $header . $greeting . $message . $footer;
     }
 
     private function sendScheduledMessage($phone_number, $message, $scheduleTimestamp)

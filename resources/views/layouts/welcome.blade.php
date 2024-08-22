@@ -15,10 +15,15 @@
   @notifyCss
 </head>
 
-<body class="bg-[#F7FAFF] flex items-center justify-center h-screen">
+<body class="bg-cover bg-center bg-no-repeat flex items-center justify-center h-screen relative" style="background-image: url('../assets/img/background-login.jpeg');">
   <x-notify::notify />
   @notifyJs
-  <div class="bg-[#0157FE] p-8 rounded-[20px] shadow-md w-96">
+
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+
+  <!-- Card -->
+  <div class="relative z-10 bg-[#0157FE] p-8 rounded-[20px] shadow-md w-96">
     <div class="flex justify-center mb-4">
       <img
         class="w-[112px] h[112px]"
@@ -72,7 +77,6 @@
         </button>
       </div>
     </form>
-
   </div>
 </body>
 

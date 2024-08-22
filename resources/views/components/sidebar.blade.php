@@ -8,10 +8,10 @@
             </a>
         </li>
         <li class="flex items-center">
-            <a href="{{ route('users') }}" class="sidebar-link block py-2 px-4 flex items-center 
+            <a href="{{ route('users') }}" class="sidebar-link block py-2 px-3 flex items-center 
                 {{ request()->routeIs('users') ? 'text-[#0157FE] font-bold' : 'text-[#878787]' }} text-[14px]">
                 <img class="mr-2" src="{{ asset(request()->routeIs('users') ? 'assets/img/ic_users-active.svg' : 'assets/img/ic_users.svg') }}" alt="Users Icon">
-                Users
+                Data ABG
             </a>
         </li>
         <li class="flex items-center">

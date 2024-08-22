@@ -5,7 +5,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
                         <img src="../assets/img/ic_users_card.svg" alt="Users Icon">
-                        <h2 class="text-xl font-bold">Users List</h2>
+                        <h2 class="text-xl font-bold">Data ABG</h2>
                     </div>
                     <!-- buatlah route ke components.users -->
                     <a href="/users" class="text-[#0157FE] text-xs underline font-semibold">Manage User</a>
